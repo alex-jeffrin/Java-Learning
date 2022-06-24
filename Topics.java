@@ -49,6 +49,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+import java.util.Scanner;
+
 class Test{
     int a = 4;
     private int n = 456;
@@ -64,18 +66,27 @@ class Test{
 
 
 
-class Day7{
-    public static void main(String[] args) {
-        int a = 8;
+//class Day7{
+//    public static void main(String[] args) {
+//        final int a = 8;
+//        int b = a;
+//        Scanner sc = new Scanner(System.in);
+//
+//        try {
+//            int c = sc.nextInt();
+//        }
+//        catch (Exception e){
+//            System.out.println("please eneter numberic values alone...");
+//        }
 
-        Test m = new Test();
+//        Test m = new Test();
 
-        System.out.println(a);
-        System.out.println(m.a);
-        System.out.println(m.getn());
-        System.out.println(m.getScore(a));
-    }
-}
+//        System.out.println(a);
+//        System.out.println(m.a);
+//        System.out.println(m.getn());
+//        System.out.println(m.getScore(a));
+//    }
+//}
 
 
 
@@ -86,4 +97,16 @@ class Day7{
 
 
 
+class Day7{
+    public static void main (String args[]){
+
+        int a = 9;
+        int i;
+        for (i=0; i<args.length;i++){
+            System.out.print(args[i]);
+        }
+
+	System.out.println(args[8]);
+    }
+}
 
