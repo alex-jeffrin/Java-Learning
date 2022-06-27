@@ -1,5 +1,7 @@
 import java.util.*;
 
+
+
 class functions{
     static List<String> bookslist  = new LinkedList<>() ;
     public static void insertBooks(){
@@ -9,7 +11,7 @@ class functions{
         input = sc.nextLine();
         List<String> books = Arrays.asList(input.split(","));
         Collections.sort(books);
-        for (String x : books){
+        for (String x : books) {
             bookslist.add(x);
         }
     }
@@ -26,7 +28,7 @@ class functions{
         String keywords = sc.nextLine();
         System.out.print("Found books : ");
         for (String names : bookslist)
-            if(names.containss {
+            if(names.contains(keywords)) {
                 System.out.println(names);
                 count++;
             }
