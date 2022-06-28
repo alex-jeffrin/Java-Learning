@@ -2,10 +2,11 @@ package librarypackage;
 
 import java.util.*;
 
-
-
-class functions{
+class Functions{
     static List<String> bookslist  = new LinkedList<>() ;
+    static List<String> uniquebookslist = new LinkedList<>();
+
+
     public static void insertBooks(){
         Scanner sc = new Scanner(System.in);
         String input = new String();
@@ -13,14 +14,49 @@ class functions{
         input = sc.nextLine();
         List<String> books = Arrays.asList(input.split(","));
         Collections.sort(books);
-        for (String x : books) {
+        for (String x : books){
             bookslist.add(x);
+        }
+        createUniqueList();
+    }
+
+    public static void createUniqueList(){
+        uniquebookslist.clear();
+        for (String x :bookslist){
+            if (uniquebookslist.contains(x)){
+                continue;
+            }
+            else {
+                uniquebookslist.add(x);
+                Collections.sort(uniquebookslist);
+            }
         }
     }
 
+
     public static void showBooks(){
         Collections.sort(bookslist);
-        System.out.println("Your booklist : "+bookslist);
+        System.out.print("Your booklist : ");
+        for (String x :uniquebookslist){
+            System.out.print(x + "x" + Collections.frequency(bookslist,x)+", ");
+        }
+        System.out.println();
+    }
+
+    public static void borroBook(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the book you want to borrow : ");
+        String neededBook =  sc.nextLine();
+        int count =0 ;
+        if (bookslist.remove(neededBook)){
+            System.out.println("Borrowed 1 book: "+neededBook);
+			System.out.println();
+        }
+        else{
+            System.out.println("Book out of stock");
+        }
+        createUniqueList();
+
     }
 
 
@@ -29,22 +65,18 @@ class functions{
         Scanner sc = new Scanner(System.in);
         String keywords = sc.nextLine();
         System.out.print("Found books : ");
-        for (String names : bookslist)
-            if(names.contains(keywords)) {
+        for (String names : uniquebookslist)
+            if(names.contains(keywords)){
                 System.out.println(names);
                 count++;
             }
         if(count ==0){
              System.out.println("None.");
         }
-
-
     }
 
 
-
     public static void books (int option){
-
         switch (option){
             case 1:
                 insertBooks();
@@ -59,51 +91,50 @@ class functions{
                 searchBook();
                 System.out.println();
                 break;
+            case 4:
+                borroBook();
+                break;
 
             default :
                 System.out.println("Please enter the correction option...");
         }
-
-
     }
-
 }
 
 
-public class SearchOption {
+public class Library {
 
     public static void main (String args[]){
 
         System.out.println("");
 
-        int n = 1;
-        functions call = new functions();
+        int option = 1;
+        Functions call = new Functions();
 
-        while (n!=0){
+        while (option != 0){
             System.out.println("Please select an option to procees:\n" +
                     "1 - to add books.\n" +
                     "2 - to display books.\n" +
                     "3 - to Search.\n" +
+                    "4 - to Borrow.\n" +
                     "0 - to exit.\n");
             try{
                 System.out.print("Enter your option : ");
                 Scanner sc = new Scanner(System.in);
-                n = sc.nextByte();
-                if (n == 0){
+                option = sc.nextByte();
+                if (option == 0){
                     System.out.println("Exiting...");
                     break;
                 }
 
                 else {
-                    call.books(n);
+                    call.books(option);
                 }
             }
             catch (Exception e){
                 System.out.println("Please enter an option as mentioned above...\n");
 
             }
-
         }
-
     }
 }
