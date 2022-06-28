@@ -1,152 +1,15 @@
 package librarypackage;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
-
-class Functions{
-    static List<String> bookslist  = new LinkedList<>() ;
-    static List<String> uniquebookslist = new LinkedList<>();
-    static List<String> history = new LinkedList<>();
-
-
-    public static void insertBooks(){
-        Scanner sc = new Scanner(System.in);
-        String input = new String();
-        System.out.print("Enter book names : ");
-        input = sc.nextLine();
-        List<String> books = Arrays.asList(input.split(","));
-        Collections.sort(books);
-        for (String x : books){
-            bookslist.add(x);
-        }
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        String strDate= formatter.format(date);
-        history.add(strDate+" Books added : "+books);
-        createUniqueList();
-    }
-
-    public static void createUniqueList(){
-        uniquebookslist.clear();
-        for (String x :bookslist){
-            if (uniquebookslist.contains(x)){
-                continue;
-            }
-            else {
-                uniquebookslist.add(x);
-                Collections.sort(uniquebookslist);
-            }
-        }
-    }
-
-
-    public static void showBooks(){
-        Collections.sort(bookslist);
-        System.out.print("Your booklist : ");
-        for (String x :uniquebookslist){
-            System.out.print(x + "x" + Collections.frequency(bookslist,x)+", ");
-        }
-        System.out.println();
-    }
-
-    public static void borrowBook(){
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the book you want to borrow : ");
-        String neededBook =  sc.nextLine();
-        int count =0 ;
-        if (bookslist.remove(neededBook)){
-            System.out.println("Borrowed 1 book: "+neededBook);
-            Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-            String strDate= formatter.format(date);
-            history.add(strDate+" Books borrowed : "+neededBook);
-        }
-        else{
-            System.out.println("Book out of stock");
-        }
-        createUniqueList();
-
-    }
-
-
-    public static void searchBook(){
-        int count =0 ;
-        Scanner sc = new Scanner(System.in);
-        String keywords = sc.nextLine();
-        System.out.print("Found books : ");
-        for (String names : uniquebookslist)
-            if(names.contains(keywords)){
-                System.out.println(names);
-                count++;
-            }
-        if(count ==0){
-             System.out.println("None.");
-        }
-    }
-
-
-    public static void viewHistory(){
-        for (String x : history){
-            System.out.println(x);
-        }
-        System.out.println();
-    }
-
-
-    public static void loadLibrary(){
-        String line ="";
-        try{
-            Scanner sc = new Scanner(new File("C:\\Users\\Jeffree\\IdeaProjects\\SortedBooks\\src\\LibraryBooks.csv"));
-            sc.useDelimiter(",");
-            while (sc.hasNext()){
-                System.out.println();
-                bookslist.add(String.valueOf(sc.next()));
-            }
-            createUniqueList();
-            System.out.println("Library books loaded from csv");
-        }
-        catch (Exception e){
-            System.out.println("Unable to load the library books from csv");
-            System.out.println(e);
-        }
-    }
-
-
-    public static void userOption (int option){
-        switch (option){
-            case 1:
-                insertBooks();
-                System.out.println();
-                break;
-            case 2:
-                showBooks();
-                System.out.println();
-                break;
-            case 3 :
-                System.out.print("Enter keywords to search : ");
-                searchBook();
-                System.out.println();
-                break;
-            case 4:
-                borrowBook();
-                break;
-            case 5:
-                viewHistory();
-                break;
-            default :
-                System.out.println("Please enter the correction option...");
-        }
-    }
-}
-
 
 public class Library {
 
     public static void main (String args[]){
 
-        Functions call = new Functions();
+        Utils call = new Utils();
         call.loadLibrary();
+        Utils.setCountBooks();
+
 
 
         int option = 1;
@@ -173,6 +36,7 @@ public class Library {
             }
             catch (Exception e){
                 System.out.println("Please enter an option as mentioned above...\n");
+
 
             }
         }
