@@ -1,10 +1,14 @@
 package librarypackage;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 class Functions{
     static List<String> bookslist  = new LinkedList<>() ;
     static List<String> uniquebookslist = new LinkedList<>();
+    static List<String> history = new LinkedList<>();
+
+
 
 
     public static void insertBooks(){
@@ -17,6 +21,10 @@ class Functions{
         for (String x : books){
             bookslist.add(x);
         }
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        String strDate= formatter.format(date);
+        history.add(strDate+" Books added : "+books);
         createUniqueList();
     }
 
@@ -43,14 +51,17 @@ class Functions{
         System.out.println();
     }
 
-    public static void borroBook(){
+    public static void borrowBook(){
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the book you want to borrow : ");
         String neededBook =  sc.nextLine();
         int count =0 ;
         if (bookslist.remove(neededBook)){
             System.out.println("Borrowed 1 book: "+neededBook);
-			System.out.println();
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            String strDate= formatter.format(date);
+            history.add(strDate+" Books borrowed : "+neededBook);
         }
         else{
             System.out.println("Book out of stock");
@@ -76,6 +87,14 @@ class Functions{
     }
 
 
+    public static void viewHistory(){
+        for (String x : history){
+            System.out.println(x);
+        }
+        System.out.println();
+    }
+
+
     public static void books (int option){
         switch (option){
             case 1:
@@ -92,9 +111,11 @@ class Functions{
                 System.out.println();
                 break;
             case 4:
-                borroBook();
+                borrowBook();
                 break;
-
+            case 5:
+                viewHistory();
+                break;
             default :
                 System.out.println("Please enter the correction option...");
         }
@@ -117,6 +138,7 @@ public class Library {
                     "2 - to display books.\n" +
                     "3 - to Search.\n" +
                     "4 - to Borrow.\n" +
+                    "5 - to view history.\n" +
                     "0 - to exit.\n");
             try{
                 System.out.print("Enter your option : ");
