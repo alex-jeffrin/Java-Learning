@@ -1,5 +1,6 @@
 package librarypackage;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -7,8 +8,6 @@ class Functions{
     static List<String> bookslist  = new LinkedList<>() ;
     static List<String> uniquebookslist = new LinkedList<>();
     static List<String> history = new LinkedList<>();
-
-
 
 
     public static void insertBooks(){
@@ -95,7 +94,26 @@ class Functions{
     }
 
 
-    public static void books (int option){
+    public static void loadLibrary(){
+        String line ="";
+        try{
+            Scanner sc = new Scanner(new File("C:\\Users\\Jeffree\\IdeaProjects\\SortedBooks\\src\\LibraryBooks.csv"));
+            sc.useDelimiter(",");
+            while (sc.hasNext()){
+                System.out.println();
+                bookslist.add(String.valueOf(sc.next()));
+            }
+            createUniqueList();
+            System.out.println("Library books loaded from csv");
+        }
+        catch (Exception e){
+            System.out.println("Unable to load the library books from csv");
+            System.out.println(e);
+        }
+    }
+
+
+    public static void userOption (int option){
         switch (option){
             case 1:
                 insertBooks();
@@ -127,11 +145,11 @@ public class Library {
 
     public static void main (String args[]){
 
-        System.out.println("");
+        Functions call = new Functions();
+        call.loadLibrary();
+
 
         int option = 1;
-        Functions call = new Functions();
-
         while (option != 0){
             System.out.println("Please select an option to procees:\n" +
                     "1 - to add books.\n" +
@@ -150,7 +168,7 @@ public class Library {
                 }
 
                 else {
-                    call.books(option);
+                    call.userOption(option);
                 }
             }
             catch (Exception e){
