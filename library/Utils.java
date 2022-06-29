@@ -1,5 +1,3 @@
-import java.util.*;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -8,54 +6,42 @@ class Utils {
     static List<String> booksList  = new LinkedList<>() ;
     static HashSet<String> uniqueBooksList = new HashSet<String>();
     static List<String> history = new LinkedList<>();
-
-    static TreeMap<String,Integer> countBooks = new TreeMap<String, Integer>();
-
-    static int t = 0;
-    static String input = new String();
+    static TreeMap<String,Integer> booksAndQunatity = new TreeMap<String, Integer>();
+    static String bookInput = new String();
+    static List<String> books = new ArrayList<>();
 
     public static void insertBooks(){
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter book names : ");
-        input = sc.nextLine();
-        List<String> books = Arrays.asList(input.split(","));
-        Collections.sort(books);
+        bookInput = sc.nextLine();
+        books = Arrays.asList(bookInput.split(","));
         for (String x : books){
             booksList.add(x);
         }
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        String strDate= formatter.format(date);
-        history.add(strDate+" Books added : "+books);
-        createUniqueList();
-        setCountBooks();
+        if (!bookInput.isEmpty()){
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            String strDate= formatter.format(date);
+            history.add(strDate+" Books added : "+books);
+        }
+        getBooksQUantity();
     }
 
-    public static void createUniqueList(){
-        uniqueBooksList.clear();
-        for (String c : booksList){
-            uniqueBooksList.add(c);
 
-        }
-
-
-    }
-    public static void setCountBooks(){
-        if (t==0) {
-            for (String x : uniqueBooksList)
-                countBooks.put(x, Collections.frequency(booksList, x));
-        }
-        else if (!uniqueBooksList.contains(input)){
-            booksList.add(input);
-            createUniqueList();
-            countBooks.put((String) input,1);
-
-        }
+    public static void getBooksQUantity(){
+        for (String x :books)
+            if (!uniqueBooksList.contains(x)){
+                uniqueBooksList.add(x);
+                booksAndQunatity.put((String) bookInput,Collections.frequency(booksList,x));
+            }
+            else {
+                booksAndQunatity.put(x, (booksAndQunatity.get(x))+Collections.frequency(books,x));
+            }
     }
 
     public static void showBooks(){
-        System.out.println(countBooks);
+        System.out.println(booksAndQunatity);
     }
 
     public static void borrowBook(){
@@ -64,10 +50,10 @@ class Utils {
         System.out.print("Enter the book you want to borrow : ");
         try{
             String neededBook =  sc.nextLine();
-            if (countBooks.get(neededBook) != 0 ){
+            if (booksAndQunatity.get(neededBook) != 0 ){
                 System.out.println("Borrowed 1 book: "+neededBook);
                 System.out.println();
-                countBooks.put(neededBook, (countBooks.get(neededBook))-1);
+                booksAndQunatity.put(neededBook, (booksAndQunatity.get(neededBook))-1);
                 Date date = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
                 String strDate= formatter.format(date);
@@ -79,6 +65,7 @@ class Utils {
 
         }catch (Exception e){
             System.out.println("Not found since this book is not added");
+            System.out.println();
         }
 
     }
@@ -101,8 +88,13 @@ class Utils {
 
 
     public static void viewHistory(){
-        for (String x : history){
-            System.out.println(x);
+        if (history.isEmpty()){
+            System.out.println("No history available right now...");
+        }
+        else {
+            for (String x : history){
+                System.out.println(x);
+            }
         }
         System.out.println();
     }
@@ -111,13 +103,20 @@ class Utils {
     public static void loadLibrary(){
         String line ="";
         try{
+
             Scanner sc = new Scanner(new File("C:\\Users\\Jeffree\\IdeaProjects\\SortedBooks\\src\\LibraryBooks.csv"));
             sc.useDelimiter(",");
             while (sc.hasNext()){
                 System.out.println();
                 booksList.add(String.valueOf(sc.next()));
             }
-            createUniqueList();
+
+            for (String c : booksList){
+                uniqueBooksList.add(c);
+            }
+            for (String x : uniqueBooksList){
+                booksAndQunatity.put(x, Collections.frequency(booksList, x));
+            }
             System.out.println("Library books loaded from csv");
         }
         catch (Exception e){

@@ -1,14 +1,12 @@
-package librarypackage;
-
 import java.util.*;
 
 public class Library {
 
     public static void main (String args[]){
 
-        Utils call = new Utils();
-        call.loadLibrary();
-        Utils.setCountBooks();
+        Utils libraryMethods = new Utils();
+        libraryMethods.loadLibrary();
+        Utils.getBooksQUantity();
 
 
 
@@ -31,7 +29,7 @@ public class Library {
                 }
 
                 else {
-                    call.userOption(option);
+                    libraryMethods.userOption(option);
                 }
             }
             catch (Exception e){
