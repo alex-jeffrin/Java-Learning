@@ -18,7 +18,7 @@ public class Utils {
         String line ="";
         try{
 
-            Scanner sc = new Scanner(new File("C:\\Users\\Jeffree\\IdeaProjects\\SortedBooks\\src\\library\\LibraryBooks.csv"));
+            Scanner sc = new Scanner(new File("C:\\Users\\Jeffree\\Desktop\\Currency\\CurrencyCovertor\\library\\LibraryBooks.csv"));
             sc.useDelimiter(",");
             while (sc.hasNext()){
                 System.out.println();
@@ -33,9 +33,9 @@ public class Utils {
             }
             System.out.println("Library books loaded from csv");
 			Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
             String strDate= formatter.format(date);
-			history.add(strDate + " - Library books loaded from csv");
+			history.add(strDate + "\t-\tLibrary books loaded from csv");
         }
         catch (Exception e){
             System.out.println("Unable to load the library books from csv");
@@ -55,9 +55,9 @@ public class Utils {
         }
         if (!bookInput.isEmpty()){
             Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
             String strDate= formatter.format(date);
-            history.add(strDate+" - Books added : "+books);
+            history.add(strDate+"\t-\tBooks added : "+books);
         }
         getBooksQUantity();
     }
@@ -89,9 +89,9 @@ public class Utils {
             booksAndQunatity.put(neededBook, (booksAndQunatity.get(neededBook))-1);
             System.out.println("A copy of "+ neededBook +" Has been borrowed by " +name );
 			Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
             String strDate= formatter.format(date);
-			history.add(strDate + " - A copy of "+ neededBook +" Has been borrowed by " +name );			
+			history.add(strDate + "\t-\tA copy of "+ neededBook +" Has been borrowed by " +name );			
             return true;
         }
         else {
@@ -100,9 +100,9 @@ public class Utils {
     }
     synchronized public static void returnmethod(String name) throws InterruptedException {
 		Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
         String strDate= formatter.format(date);
-		history.add(strDate + " - A copy of "+ neededBook +" Has been borrowed by " +name );
+		history.add(strDate + "\t-\tA copy of "+ neededBook +" Has been borrowed by " +name );
         Utils.booksAndQunatity.put(Utils.neededBook,(Utils.booksAndQunatity.get(Utils.neededBook))+1);
         System.out.println("A copy of "+neededBook+" has been returned by" + name);
 
