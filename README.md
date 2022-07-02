@@ -39,4 +39,26 @@ This is how  Data Redundancy causes issues in database. Not only in the case of 
 6. Sixth Normal Form (6 NF)
 
 ### 1.First  Normal Form (1 NF)
+&emsp; If a value in a table or relation contains multivalued or composite values as its attributes. then it violates the first normal form. For example consider the table below.
+
+  Student Id | Student Name | Contact No | Favourite Sports |
+  --- | --- | --- |--- 
+  1 | Suresh | 7894561233 | Cricket, Tennis |
+  2 | Muthu | 9874561233 | Kabadi |
+  3 | Sam | 6123547899 | Cricket, Football |
+
+&emsp; In the above table we can see that the values in the favourite sports coloumns have some composite values in their columns like the student Suresh like more than one sports namely Cricket and Tennis which are mentioned as same values. This violates the first normal form  so we can convert the above example as shown below to follow the first normal form.
+
+
+  Student Id | Student Name | Contact No | Favourite Sports |
+  --- | --- | --- |--- 
+  1 | Suresh | 7894561233 | Cricket |
+  1 | Suresh | 7894561233 | Tennis |
+  2 | Muthu | 9874561233 | Kabadi |
+  3 | Sam | 6123547899 | Cricket |
+  3 | Sam | 6123547899 | Football |
+
+  &emsp; You may think that it may cause data redundancy but the main dact of following data normalization is to minimalize data redundancy. if we need to update contact no for any student still its possible cause, we can make it by using the student id as the primary key.
+ 
+
 # Updating ...
