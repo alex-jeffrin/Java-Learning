@@ -124,9 +124,10 @@ Now we have seperated the subject teacher details into a seperate table now ther
   --- | --- | --- |--- |--- 
 
   Exam name | Total marks
-  --- | --- 
-  --- | --- 
-  --- | --- 
+  --- | --- |
+  --- | --- |
+  --- | --- |
+  
   &emsp; Now the exam name field and the total marks field has been seperated from the main table. no the table is in third noraml form.
 
 # Updating ...
