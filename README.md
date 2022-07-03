@@ -38,7 +38,7 @@ This is how  Data Redundancy causes issues in database. Not only in the case of 
 5. Fifth Normal Form (5 NF)
 6. Sixth Normal Form (6 NF)
 
-### 1.First  Normal Form (1 NF)
+  ## 1.First  Normal Form (1 NF)
 &emsp; If a value in a table or relation contains multivalued or composite values as its attributes. then it violates the first normal form. For example consider the table below.
 
   Student Id | Student Name | Contact No | Favourite Sports |
@@ -59,6 +59,43 @@ This is how  Data Redundancy causes issues in database. Not only in the case of 
   3 | Sam | 6123547899 | Football |
 
   &emsp; You may think that it may cause data redundancy but the main dact of following data normalization is to minimalize data redundancy. if we need to update contact no for any student still its possible cause, we can make it by using the student id as the primary key.
- 
+
+  ## 2.Second  Normal Form (2 NF)
+ ## Rules :
+ * It is mandatory for the database to be in first Normal form.
+ * There should not be any partial dependency in a table 
+
+ ## What is a partial Dependency?
+
+ Lets consider the following example for the partial dependancy.
+
+ Student Id | Score Id | Subject ID | Marks | Subject Teacher |
+  --- | --- | --- |--- |--- 
+  1 | 1 | 1 | 85 | Gurunath
+  1 | 2 | 2 | 83 | Santhosh 
+  3 | 3 | 1 | 96 | Gurunath
+  4 | 4 | 1 | 81 |Gurunath
+  4 | 5 | 2 | 79 |Santhosh
+
+&emsp; In the above table we are able to see that if we need a mark of a student for a specific subject, We need bot the subject Sd and the Student Id. Cause, if we only have the Student Id we are not able to get the marks for specific subject. If we have the Subject Id alone then we will not be able to identify the mark for the specific student. so the primary key for this table would be Student Id + Subject Id. Which gives the mark of a student for a specific subject.but here we have the Subject Teacher name also but it onlu depends on the subject id alone so it partialy depends on the primary key. 
+
+## How can we make the table follow Second Noraml Form ?
+&emsp; in order to be in second normal form there must not be any partial dependency in a table. so we can make the table as below to make it in a second normal form.
+
+Student Id | Score Id | Subject ID | Marks 
+  --- | --- | --- |---  
+  1 | 1 | 1 | 85 
+  1 | 2 | 2 | 83  
+  3 | 3 | 1 | 96 
+  4 | 4 | 1 | 81 
+  4 | 5 | 2 | 79 
+
+ Student Id | Subject Teacher
+--- | --- |
+1 |Gurunath
+2 |Santhosh
+
+Now we have seperated the subject teacher details into a seperate table now there will not be any partial dependency in the student score table. Now the table is in second Normal Form. 
+
 
 # Updating ...
