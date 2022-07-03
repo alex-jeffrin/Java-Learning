@@ -34,7 +34,7 @@ This is how  Data Redundancy causes issues in database. Not only in the case of 
 1. First Normal Form (1 NF)
 2. Second Normal Form (2 NF)
 3. Third Normal Form (3 NF)
-4. Boyce Codd Normal Form or Fourth Normal Form ( BCNF or 4 NF or 3.5)
+4. Boyce Codd Normal ( BCNF or 3.5)
 5. Fifth Normal Form (5 NF)
 6. Sixth Normal Form (6 NF)
 
@@ -77,7 +77,7 @@ This is how  Data Redundancy causes issues in database. Not only in the case of 
   4 | 4 | 1 | 81 |Gurunath
   4 | 5 | 2 | 79 |Santhosh
 
-&emsp; In the above table we are able to see that if we need a mark of a student for a specific subject, We need bot the subject Sd and the Student Id. Cause, if we only have the Student Id we are not able to get the marks for specific subject. If we have the Subject Id alone then we will not be able to identify the mark for the specific student. so the primary key for this table would be Student Id + Subject Id. Which gives the mark of a student for a specific subject.but here we have the Subject Teacher name also but it onlu depends on the subject id alone so it partialy depends on the primary key. 
+&emsp; In the above table we are able to see that if we need a mark of a student for a specific subject, We need bot the subject Sd and the Student Id. Cause, if we only have the Student Id we are not able to get the marks for specific subject. If we have the Subject Id alone then we will not be able to identify the mark for the specific student. so the primary key for this table would be Student Id + Subject Id. Which gives the mark of a student for a specific subject.but here we have the Subject Teacher name also but it only depends on the subject id alone and it cannot be used as a determinant also. so it partialy depends on the primary key. 
 
 ## How can we make the table follow Second Noraml Form ?
 &emsp; in order to be in second normal form there must not be any partial dependency in a table. so we can make the table as below to make it in a second normal form.
@@ -130,4 +130,108 @@ Now we have seperated the subject teacher details into a seperate table now ther
   
   &emsp; Now the exam name field and the total marks field has been seperated from the main table. no the table is in third noraml form.
 
-# Updating ...
+
+## 4 Boyce Codd Normal Form ( BCNF or 3.5NF)
+
+## Rules :
+* It is mandatory for the database to be in Second Normal form.
+* There must not be any Reverse dependency in a table 
+
+## What is Reverse Dependency?
+Lets take the beow table as example
+
+
+Student Name | Subject | Subject Staff |
+--- | ---| ---
+  Sam | Python | Venkatesh 
+  Santhosh | Python | Muthu 
+  Sam | C++ | Selvam 
+  Raja | python | Venkatesh 
+  Santosh | JAVA | Shankar 
+
+&emsp; In the above table we are able to see that the the there can be different teachers for the same subject, but a teacher can handle only one subject. so in the above table Student name + Subject act as a candidate key which will determines the staffs who handles the subject. In other terms we can also take Student name + Staff to determine the subject, this 
+here sunject staff is not a prime attribute but it is a determinent which detemines the subject. here we think that a partial dependency occurs But, no. Cause in partial dependency the attribute that is detemined by the partial key attribute cannot be reversed to find that partial key attribute. But here it can be used as a determinant also to find the determinant.It is called as Reverse Dependency. In order to break this we need to seperate the table as below.
+
+  Student name | SUbject
+  --- | --- |
+  Sam | Python |
+  Santhosh | Python |
+  Sam | C++ |
+  Raja | python |
+  Santosh | JAVA |
+
+  Subject | Subject staff
+  --- | --- |
+  Python | Venkatesh 
+  Python | Muthu 
+  Sam | C++ | Selvam 
+  JAVA | Shankar
+
+## 5 Fourth Normal Form (4NF)
+
+## Rules :
+* It is mandatory for the database to be in BCNF Normal form.
+* There must not be any Multi-value dependency in a table 
+
+## Conditions for Multi-Valued Dependency :
+
+- A table must have atleast 3 coloumns.
+  - For Example : A-Coloumn, B-Coloumn, C-Coloumn.
+- For a  Single value of A-coloumn multiple values in B-coloumn exists.
+  - For example : an Student id in a table can show mobile number of an Student, Single Student will have multiple mobile numbers.
+- For a relation between Two coloumns A-Coloumn -> B-Coloumn it does not determines C-Coloumn same vice versa for relation A-Coloumn -> C-Coloumn
+
+&emsp; Lets consider the below table as example.
+
+Student Id | Favourite Subject | Hobby |
+--- | ---| ---
+  1 | Python | Gaming 
+  1 | C++ | Cycling 
+  2 | Python | Gaming 
+  2 | JAVA | Music 
+  3 | python | Cycling 
+
+  &emsp; So the above table satisfy the first condition of multivalued dependency by having three coloumns.
+  By using student id we can get multiple favourite subject as well as multiple hobbies. and so it satifies the second condition. hobby attribute and the facourite subject attribute does not have any relation between then hence the 3rd condition also satified. The table have multi valued dependency.
+
+  ## What coud go wrong?
+
+&emsp; If we try to take the Student id as 1 and favourite language as python we can get the hobby as gaming. But, there is one more hobby for the student id 1. If we need the second hobby we need to use the another favourite subject. or if we need to get the two hobbies we need to duplicate the student id and faourite subject number of times the hobby exist which consumes lot of space instead we can split this table into two as below to avoid Multi-valued dependency.
+
+Student Id | Favourite Subject 
+--- | ---
+  1 | Python 
+  1 | C++ 
+  2 | Python 
+  2 | JAVA 
+  3 | python 
+
+  Student Id | Hobby |
+--- | ---
+  1 | Gaming 
+  1 | Cycling 
+  2 | Gaming 
+  2 | Music 
+  3 | Cycling 
+
+
+## 6 FourFifthth Normal Form (5NF)
+
+## Rules :
+* It is mandatory for the database to be in Fourth Normal form.
+* There must not be join dependency in a table and lossless decomposition must occur while natural joining of tables that we have splitted.
+
+## What is Decompostition?
+After the table reaches a limit where the table cannot be splitted more it reaches its limit. After dividing the tables into several tables. The process in which we try to join the table to see the real table is called decompostion.
+There are two types of Decompostitons. namely,
+- Lossfull Decompostion
+  - The time in which data gets lost or added during the process of decompostiton.
+- Lossless Decomposition
+  - The time in which data does not have any loss or addition of data  during the process of decompostiton.
+
+
+  If the process of Decomposition made successfull then the table is said to be in Fifth Normal Form (5 NF). 
+
+
+
+
