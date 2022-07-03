@@ -215,7 +215,7 @@ Student Id | Favourite Subject
   3 | Cycling 
 
 
-## 6 FourFifthth Normal Form (5NF)
+## 6 Fifth Normal Form (5NF)
 
 ## Rules :
 * It is mandatory for the database to be in Fourth Normal form.
