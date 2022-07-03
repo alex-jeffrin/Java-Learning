@@ -63,7 +63,7 @@ This is how  Data Redundancy causes issues in database. Not only in the case of 
   ## 2.Second  Normal Form (2 NF)
  ## Rules :
  * It is mandatory for the database to be in first Normal form.
- * There should not be any partial dependency in a table 
+ * There must not be any partial dependency in a table 
 
  ## What is a partial Dependency?
 
@@ -90,12 +90,43 @@ Student Id | Score Id | Subject ID | Marks
   4 | 4 | 1 | 81 
   4 | 5 | 2 | 79 
 
- Student Id | Subject Teacher
+ Subject Id | Subject Teacher
 --- | --- |
 1 |Gurunath
 2 |Santhosh
 
 Now we have seperated the subject teacher details into a seperate table now there will not be any partial dependency in the student score table. Now the table is in second Normal Form. 
 
+  ## 3.Third  Normal Form (3 NF)
+ ## Rules :
+ * It is mandatory for the database to be in Second Normal form.
+ * There must not be any Transitive dependency in a table 
+
+ ## What is a Transitive Dependency?
+ Lets take the above score table as example but this time lets add two coloumns as exam name and total marks in it.
+
+ Student Id | Score Id | Subject ID | Marks | Exam name | Total marks
+  --- | --- | --- |--- |--- |---  
+ --- | --- | --- |--- |--- |---
+  --- | --- | --- |--- |--- |---
+
+  so now in the above table lets say there might be different exams for student if there is a computer student he\ she will have a computer related exams, If he\she is a micro biology student then they will have a different exams. a computer science student may have practical examination which has a total marks of 30 and Theory examination which has a total marks as 70 so it depends on the exam name. so in our table the total marks doesnt depends on the student name or Student Id or subject id. It depends on the exam name. but exam name is not a part of primary key cause in this table primary key is a composite key which is identified by the Student id + Subject Id. But the total marks is dependent on the exam name which is not a part of the primary key this is known as Transitive Dependency.
+
+  ## How Transitive Dependency is different from partial Dependency?
+
+  In partial dependency the Subject id uniquely identifies the Subject teacher which is a part of primary key. But here in Transitive Dependency the Total marks attribute is dependent on the exam name which is not a part of primary key. This is the difference bettwen the Partical Dependency and Transitice Dependency.
+
+## How can we make the table follow Third Noraml Form ?
+
+ Student Id | Score Id | Subject ID | Marks | Exam name 
+  --- | --- | --- |--- |---  
+ --- | --- | --- |--- |--- 
+  --- | --- | --- |--- |--- 
+
+  Exam name | Total marks
+  --- | --- 
+  --- | --- 
+  --- | --- 
+  &emsp; Now the exam name field and the total marks field has been seperated from the main table. no the table is in third noraml form.
 
 # Updating ...
