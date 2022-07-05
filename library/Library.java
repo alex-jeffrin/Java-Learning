@@ -1,17 +1,29 @@
-import java.util.*;
-
 import Utilities.Utils;
-import Utilities.BorrowThread;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.*;
+import java.sql.Connection;
 
 public class Library {
 
     public static void main (String args[]){
 
+        String jdbcURL = "jdbc:postgresql://localhost:5432/LibraryDatabase";
+        String username = "postgres";
+        String password = "root";
+
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL,username,password   );
+            System.out.println("Database connection made successfully...");
+            Utils.loadDB();
+        } catch (SQLException e) {
+            System.out.println("Error in Database connection...");
+            throw new RuntimeException(e);
+        }
+
         Utils libraryMethods = new Utils();
-        libraryMethods.loadLibrary();
-        Utils.getBooksQUantity();
-
-
+        Utils.setBooksQUantity();
 
         int option = 1;
         while (option != 0){
@@ -37,8 +49,6 @@ public class Library {
             }
             catch (Exception e){
                 System.out.println("Please enter an option as mentioned above...\n");
-
-
             }
         }
     }

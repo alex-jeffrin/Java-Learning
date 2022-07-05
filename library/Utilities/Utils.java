@@ -1,141 +1,223 @@
 package Utilities;
 
-import java.io.File;
+
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 
 public class Utils {
-    public static List<String> booksList  = new LinkedList<>() ;
+    public static List<String> booksList = new LinkedList<>();
     public static HashSet<String> uniqueBooksList = new HashSet<String>();
     public static List<String> history = new LinkedList<>();
-    public static TreeMap<String,Integer> booksAndQunatity = new TreeMap<String, Integer>();
+    public static TreeMap<String, Integer> booksAndQunatity = new TreeMap<String, Integer>();
     public static String bookInput = new String();
     public static List<String> books = new ArrayList<>();
     public static String neededBook;
+    public static String jdbcURL = "jdbc:postgresql://localhost:5432/LibraryDatabase";
+    public static String username = "postgres";
+    public static String password = "root";
 
-    public static void loadLibrary(){
-        String line ="";
-        try{
 
-            Scanner sc = new Scanner(new File("C:\\Users\\Jeffree\\Desktop\\Currency\\CurrencyCovertor\\library\\LibraryBooks.csv"));
-            sc.useDelimiter(",");
-            while (sc.hasNext()){
-                System.out.println();
-                booksList.add(String.valueOf(sc.next()));
+    public static void loadDB() {
+        ResultSet rs = null;
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+            String loadQuery = "SELECT * FROM public.library_db";
+            Statement statement = connection.createStatement();
+            rs = statement.executeQuery(loadQuery);
+            int booksloaded = 0;
+            while (rs.next()) {
+                int i = rs.getInt(2);
+                booksAndQunatity.put(rs.getString(1), i);
+                uniqueBooksList.add(rs.getString(1));
+                booksloaded++;
+            }
+            if (booksloaded < 1) {
+                System.out.println("no books are available in DB");
+            } else {
+                System.out.println("Variety of books : " + booksloaded);
             }
 
-            for (String c : booksList){
-                uniqueBooksList.add(c);
-            }
-            for (String x : uniqueBooksList){
-                booksAndQunatity.put(x, Collections.frequency(booksList, x));
-            }
-            System.out.println("Library books loaded from csv");
-			Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
-            String strDate= formatter.format(date);
-			history.add(strDate + "\t-\tLibrary books loaded from csv");
+        } catch (SQLException e) {
+            System.out.println("could not reach db...");
         }
-        catch (Exception e){
-            System.out.println("Unable to load the library books from csv");
-            System.out.println(e);
-        }
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+        String strDate = formatter.format(date);
+        history.add(strDate + "\t-\tBooks loaded from Database.");
     }
-	
-	
-	public static void insertBooks(){
-        Scanner sc = new Scanner(System.in);
 
+
+    public static void insertBooks() {
+        Scanner sc = new Scanner(System.in);
         System.out.print("Enter book names : ");
         bookInput = sc.nextLine();
-        books = Arrays.asList(bookInput.split(","));
-        for (String x : books){
-            booksList.add(x);
-        }
-        if (!bookInput.isEmpty()){
+        if (!bookInput.isEmpty()) {
+            books = Arrays.asList(bookInput.split(","));
+            System.out.println(books);
+            for (String x : books) {
+                booksList.add(x);
+            }
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
-            String strDate= formatter.format(date);
-            history.add(strDate+"\t-\tBooks added : "+books);
+            String strDate = formatter.format(date);
+            history.add(strDate + "\t-\tBooks added : " + books);
         }
-        getBooksQUantity();
+        setBooksQUantity();
     }
 
 
-    public static void showBooks(){
+    public static void setBooksQUantity() {
+        for (String x : books)
+            if (!uniqueBooksList.contains(x)) {
+                try {
+                    Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+                    String sqlQuery = "INSERT INTO public.library_db (book_name,book_quantity) VALUES ('" + x + "',1)";
+                    Statement statement = connection.createStatement();
+                    int rows = statement.executeUpdate(sqlQuery);
+                    if (rows > 0) {
+                        System.out.println("book has been added...");
+                    }
+                } catch (SQLException e) {
+                    System.out.println();
+                }
+                uniqueBooksList.add(x);
+                booksAndQunatity.put((String) x, 1);
+//                System.out.println("in new collections "+booksAndQunatity);
+            } else {
+                booksAndQunatity.put(x, (booksAndQunatity.get(x)) + 1);
+                try {
+                    Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+                    String sqlQuery = "UPDATE public.library_db SET book_quantity=" + (booksAndQunatity.get(x)) + " WHERE book_name='" + x + "';";
+                    Statement statement = connection.createStatement();
+                    int rows = statement.executeUpdate(sqlQuery);
+                    if (rows > 0) {
+                        System.out.println("book has been added...");
+                    }
+                } catch (SQLException e) {
+                    System.out.println();
+                }
+            }
+    }
+
+
+    public static void showBooks() {
         System.out.println(booksAndQunatity);
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+        String strDate = formatter.format(date);
+        history.add(strDate + "\t-\tBooks viewed.");
     }
-	
-	
-	public static void searchBook(){
-        int count =0 ;
+
+
+    public static void searchBook() {
+        int count = 0;
         Scanner sc = new Scanner(System.in);
         String keywords = sc.nextLine();
         System.out.print("Found books : ");
         for (String names : uniqueBooksList)
-            if(names.contains(keywords)){
+            if (names.contains(keywords)) {
                 System.out.println(names);
                 count++;
             }
-        if(count ==0){
+        if (count == 0) {
             System.out.println("None.");
         }
-    }    
-	
-	
-	static synchronized public Boolean borrowmethod(String name){
-        if (booksAndQunatity.get(neededBook) >0){
-            booksAndQunatity.put(neededBook, (booksAndQunatity.get(neededBook))-1);
-            System.out.println("A copy of "+ neededBook +" Has been borrowed by " +name );
-			Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
-            String strDate= formatter.format(date);
-			history.add(strDate + "\t-\tA copy of "+ neededBook +" Has been borrowed by " +name );			
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    synchronized public static void returnmethod(String name) throws InterruptedException {
-		Date date = new Date();
+        Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
-        String strDate= formatter.format(date);
-		history.add(strDate + "\t-\tA copy of "+ neededBook +" Has been borrowed by " +name );
-        Utils.booksAndQunatity.put(Utils.neededBook,(Utils.booksAndQunatity.get(Utils.neededBook))+1);
-        System.out.println("A copy of "+neededBook+" has been returned by" + name);
-
+        String strDate = formatter.format(date);
+        history.add(strDate + "\t-\tSearched books related to the key word : \"" + keywords + "\"");
     }
-	
-	
-    public static void viewHistory(){
-        if (history.isEmpty()){
+
+
+    public static void viewHistory() {
+        if (history.isEmpty()) {
             System.out.println("No history available right now...");
-        }
-        else {
-            for (String x : history){
+        } else {
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+            String strDate = formatter.format(date);
+            history.add(strDate + "\t-\tHistory viewed");
+            for (String x : history) {
                 System.out.println(x);
             }
         }
         System.out.println();
     }
-	
-	
-	public static void getBooksQUantity(){
-        for (String x :books)
-            if (!uniqueBooksList.contains(x)){
-                uniqueBooksList.add(x);
-                booksAndQunatity.put((String) x,1);
+
+
+//    public static void loadLibrary(){
+//        String line ="";
+//        try{
+//
+//            Scanner sc = new Scanner(new File("C:\\Users\\Jeffree\\IdeaProjects\\SortedBooks\\src\\library\\LibraryBooks.csv"));
+//            sc.useDelimiter(",");
+//            while (sc.hasNext()){
+//                System.out.println();
+//                booksList.add(String.valueOf(sc.next()));
+//            }
+//
+//            for (String c : booksList){
+//                uniqueBooksList.add(c);
+//            }
+//            for (String x : uniqueBooksList){
+//                booksAndQunatity.put(x, Collections.frequency(booksList, x));
+//            }
+//            System.out.println("Library books loaded from csv");
+//        }
+//        catch (Exception e){
+//            System.out.println("Unable to load the library books from csv");
+//            System.out.println(e);
+//        }
+//    }
+
+
+    static synchronized public Boolean borrowmethod(String name) {
+        if (booksAndQunatity.get(neededBook) > 0) {
+            booksAndQunatity.put(neededBook, (booksAndQunatity.get(neededBook)) - 1);
+            try {
+                Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+                String sqlQuery = "UPDATE public.library_db SET book_quantity=" + (booksAndQunatity.get(neededBook)) + " WHERE book_name='" + neededBook + "';";
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(sqlQuery);
+            } catch (SQLException e) {
+                System.out.println();
             }
-            else {
-                booksAndQunatity.put(x, (booksAndQunatity.get(x))+1);
-            }
+            System.out.println("A copy of " + neededBook + " Has been borrowed by " + name);
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+            String strDate = formatter.format(date);
+            history.add(strDate + "\t-\tA copy of " + neededBook + " Has been borrowed by " + name);
+            return true;
+        } else {
+            return false;
+        }
     }
-	
-	
-	public static void userOption (int option){
-        switch (option){
+
+
+    synchronized public static void returnmethod(String name) throws InterruptedException {
+        Utils.booksAndQunatity.put(Utils.neededBook, (Utils.booksAndQunatity.get(Utils.neededBook)) + 1);
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+            String sqlQuery = "UPDATE public.library_db SET book_quantity=" + (booksAndQunatity.get(neededBook)) + " WHERE book_name='" + neededBook + "';";
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sqlQuery);
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+            String strDate = formatter.format(date);
+            history.add(strDate + "\t-\tA copy of " + neededBook + " Has been returned by " + name);
+        } catch (SQLException e) {
+            System.out.println();
+        }
+        System.out.println("a copy of " + neededBook + " has been returned by" + name);
+
+    }
+
+
+    public static void userOption(int option) {
+        switch (option) {
             case 1:
                 insertBooks();
                 System.out.println();
@@ -144,16 +226,17 @@ public class Utils {
                 showBooks();
                 System.out.println();
                 break;
-            case 3 :
+            case 3:
                 System.out.print("Enter keywords to search : ");
                 searchBook();
                 System.out.println();
                 break;
             case 4:
-                Scanner sc = new Scanner (System.in);
+//                borrowBook();
+                Scanner sc = new Scanner(System.in);
                 System.out.print("Enter the Book name you want to borrow : ");
                 neededBook = sc.nextLine();
-                if (uniqueBooksList.contains(neededBook)){
+                if (uniqueBooksList.contains(neededBook)) {
                     BorrowThread custome1 = new BorrowThread("customer1");
                     BorrowThread custome2 = new BorrowThread("customer2");
                     BorrowThread custome3 = new BorrowThread("customer3");
@@ -174,19 +257,15 @@ public class Utils {
                     custome8.start();
                     custome9.start();
                     custome10.start();
-                }
-                else {
+                } else {
                     System.out.println("The book is not available since it was never added");
                 }
                 break;
             case 5:
                 viewHistory();
                 break;
-            default :
+            default:
                 System.out.println("Please enter the correct option...");
         }
     }
-    
-
-
 }
