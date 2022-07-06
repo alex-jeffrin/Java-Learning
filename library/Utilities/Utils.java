@@ -10,7 +10,6 @@ import java.util.Date;
 public class Utils {
     static List<String> booksList  = new LinkedList<>() ;
     static HashSet<String> uniqueBooksList = new HashSet<String>();
-    static List<String> history = new LinkedList<>();
     static TreeMap<String,Integer> booksAndQunatity = new TreeMap<String, Integer>();
     static String bookInput = new String();
     static List<String> books = new ArrayList<>();
@@ -39,15 +38,15 @@ public class Utils {
 	
 	
     public static void loadDB(){
-        ResultSet rs = null;
+        ResultSet queryResult = null;
         try {
             String loadQuery = "SELECT * FROM public.library_db";
-            rs = statement.executeQuery(loadQuery);
+            queryResult = statement.executeQuery(loadQuery);
             int booksloaded = 0;
-            while (rs.next()){
-                int i =rs.getInt(2);
-                booksAndQunatity.put(rs.getString(1),i );
-                uniqueBooksList.add(rs.getString(1));
+            while (queryResult.next()){
+                int i =queryResult.getInt(2);
+                booksAndQunatity.put(queryResult.getString(1),i );
+                uniqueBooksList.add(queryResult.getString(1));
                 booksloaded++;
             }
             if (booksloaded<1){
@@ -63,7 +62,6 @@ public class Utils {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
         String strDate= formatter.format(date);
-        history.add(strDate + "\t-\tBooks loaded from Database.");
     }
 
 
@@ -80,7 +78,6 @@ public class Utils {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
             String strDate= formatter.format(date);
-            history.add(strDate + "\t-\tBooks added : "+ books);
             String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','books added : "+books+"','Insert')";
             statement.executeUpdate(sqlQuery);
         }
@@ -124,7 +121,6 @@ public class Utils {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
         String strDate= formatter.format(date);
-        history.add(strDate + "\t-\tBooks viewed.");
         String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','Books viewed','View')";
         statement.executeUpdate(sqlQuery);
     }
@@ -146,36 +142,26 @@ public class Utils {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
         String strDate= formatter.format(date);
-        history.add(strDate + "\t-\tSearched books related to the key word : \""+keywords+"\"");
         String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','Searched for book : "+keywords+"','Search')";
         statement.executeUpdate(sqlQuery);
     }
 
 
     public static void viewHistory() throws SQLException {
-        if (history.isEmpty()){
-            System.out.println("No history available right now...");
-        }
-        else {
-            Date date = new Date();
+        Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
             String strDate= formatter.format(date);
-            history.add(strDate + "\t-\tHistory viewed");
             String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','Viewed history ','View')";
             statement.executeUpdate(sqlQuery);
             sqlQuery = "SELECT * FROM public.library_history";
-			ResultSet rs = null;
-			rs = statement.executeQuery(sqlQuery);
-			while(rs.next()){
-				System.out.print(rs.getString(1));
-				System.out.print("\t"+rs.getString(2));
-				System.out.print("\t("+rs.getString(3)+")");
+			ResultSet queryResult = null;
+			queryResult = statement.executeQuery(sqlQuery);
+			while(queryResult.next()){
+				System.out.print(queryResult.getString(1));
+				System.out.print("\t"+queryResult.getString(2));
+				System.out.print("\t("+queryResult.getString(3)+")");
 				System.out.println();
 			}
-			// for (String x : history){
-                // System.out.println(x);
-            // }
-        }
         System.out.println();
     }
 
@@ -195,7 +181,6 @@ public class Utils {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
             String strDate= formatter.format(date);
-            history.add(strDate + "\t-\tA copy of "+ neededBook +" Has been borrowed by " +name );
             String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','A copy of "+neededBook+" has been borrowed by "+name+"','Borrow')";
             try {
                 statement.executeUpdate(sqlQuery);
@@ -218,7 +203,6 @@ public class Utils {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
             String strDate= formatter.format(date);
-            history.add(strDate + "\t-\tA copy of "+ neededBook +" Has been returned by " +name );
             sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','A copy of "+neededBook+"has been returned by "+name+"','Return')";
             try {
                 statement.executeUpdate(sqlQuery);
@@ -249,7 +233,6 @@ public class Utils {
                 System.out.println();
                 break;
             case 4:
-//                borrowBook();
                 Scanner sc = new Scanner (System.in);
                 System.out.print("Enter the Book name you want to borrow : ");
                 neededBook = sc.nextLine();
