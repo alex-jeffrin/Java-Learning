@@ -1,29 +1,60 @@
 import Utilities.Utils;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
-import java.sql.Connection;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Library {
+	static String jdbcURL = "jdbc:postgresql://localhost:5432/LibraryDatabase";
+    static String username = "postgres";
+    static String password = "root";
+	static String sqlQuery;
+    public static Connection connection;
+	public static Statement statement ;
+	
+	
+	static {
+		try {
+			connection = DriverManager.getConnection(jdbcURL,username,password );
+		}
+		catch(Exception e){
+		}
+
+	}
+	static{
+		try{
+			statement = connection.createStatement();
+		}
+		catch(Exception e){
+			
+		}
+	}
+
 
     public static void main (String args[]){
-
-        String jdbcURL = "jdbc:postgresql://localhost:5432/LibraryDatabase";
-        String username = "postgres";
-        String password = "root";
+		
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+		String dateAndTime = formatter.format(date);
+		sqlQuery = "INSERT INTO public.library_history (event_time, event,action) VALUES ('"+dateAndTime+"','Application has started','Open')";
+		try{
+			statement.executeUpdate(sqlQuery);
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		         
 
         try {
-            Connection connection = DriverManager.getConnection(jdbcURL,username,password   );
+
             System.out.println("Database connection made successfully...");
             Utils.loadDB();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error in Database connection...");
-            throw new RuntimeException(e);
         }
 
         Utils libraryMethods = new Utils();
-        Utils.setBooksQUantity();
+        Utils.setBooksQuantity();
 
         int option = 1;
         while (option != 0){
@@ -39,7 +70,17 @@ public class Library {
                 Scanner sc = new Scanner(System.in);
                 option = sc.nextByte();
                 if (option == 0){
+                    
                     System.out.println("Exiting...");
+					sqlQuery = "INSERT INTO public.library_history (event_time, event,action) VALUES ('"+dateAndTime+"','Application has closed','Close')";
+					try{
+						statement.executeUpdate(sqlQuery);
+						
+					}
+					catch(Exception e){
+						System.out.println(e);
+					}
+					connection.close();
                     break;
                 }
 
