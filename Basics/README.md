@@ -64,6 +64,43 @@ class classname {
 }
 ```
 
+## 3. Declaring objects 
+
+
+Declaring of objects are as follow
+
+ ```java 
+ Classname objectname = new classname();
+ ```
+
+ we can also reference an object to a new variable as like below
+
+ 
+ ```java 
+ Classname objectname1 = new classname();
+
+ Classname objectname2 = objectname1;
+
+
+ ```
+
+ ## 4. Methods
+
+ the methods are functions that are declared inside the class. the methods inside the class can be used after creating an object for the class. The general form of a method is as show below 
+
+ ```java 
+ access_modifier return_type method_name(type parameters){
+
+  //statements to be executed
+  //body of method
+  return value;
+ }
+```
+
+
+
+
+
 
 
 
