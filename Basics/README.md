@@ -191,6 +191,66 @@ c:\Users\ExampleProgram> java AdditionOfTwo
 
 Process finished with exit code 0
 ```
+## 8. Constructors
+Constuctors are like default methods that will be called whenevere an object is created. those constructors can also be overridden by the user to ask for the variables while creating an object, We can create a class with default values or properties with the constructor. Constructor method will have the same name as the class name. It may have parameters that user need to give when the creation of object, or the default constructor may have some other value to be initialized during the creation of the object. below is the example code for constructor.
+
+```java 
+class AddTwo{
+
+    int m ;
+    int n;
+
+    AddTwo(){
+        int m = 2;
+        int n = 3;
+    }
+
+    AddTwo(int i, int j){
+
+        int m = i;
+        int n = j;
+
+    }
+
+    public int additionMethod(){ //parameter with two variables of int datatype...
+
+        return m+ n;
+
+    }
+}
+
+class AdditionOfTwo{
+
+    public static void main (String args[]){
+
+        int a = 6;
+        int b = 4;
+        AddTwo obj1 = new AddTwo();
+        AddTwo obj2 = new AddTwo(a,b);
+
+
+        int c = obj1.additionMethod();
+        int d = obj2.additionMethod();
+        
+        System.out.println("Object with no parameters : "+ c);
+        System.out.println("Object with 2 parameters : "+d);
+
+    }
+}
+```
+
+In the above example we have created two constructors one with the default values and another one with a parameter which expects two arguments from the user to give. Now there is option either user can give parameter during initialization of object or it can be emplty so that the constructor by default it will  assign the value as m = 1 and n = 6. the output will be as follow 
+
+### Output :
+```bash 
+c:\Users\ExampleProgram> javac AdditionOfTwo.java
+c:\Users\ExampleProgram> java AdditionOfTwo
+
+Object with no parameters : 5
+Object with 2 parameters : 10
+
+Process finished with exit code 0
+```
 
 > **UPDATING...**
 
