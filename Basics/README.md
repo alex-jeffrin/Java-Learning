@@ -327,6 +327,44 @@ class AddTwo{
 ```
 now it takes the value from the parameter and assign the values to the curren objects variable without any clash.
 
+## 11. Method overloading
+
+Metod overloading refers to defining methods with the same name multiple times. A best example where method overloading can be used is when we initiate objects with default constructors that are asking for values as arguments. for example if user enters arguments with different data type then these method overloading can be used by creating method with the same name but it asks for differnet datatype of parameter for better understanding lets take the below example.
+
+```java
+class AddTwo{
+
+    int m ;
+    int n;
+
+    AddTwo(int i, int j){
+
+        this.i = i;
+        this.j = j;
+
+    }
+    AddTwo(float  i, float j){
+
+        this.i = i;
+        this.j = j;
+
+    }
+    AddTwo(double i, double j){
+
+        this.i = i;
+        this.j = j;
+
+    }
+    
+}
+```
+
+So, in the above example the object needs two values as an arguments but event it is os int type or float or double based on the user input it will just select the method that suits the constructor that has been overloaded.
+
+
+We have created three constructors that overloads the constructor methods. 
+this concept of creating constructors with the same name for handling different datatype input from the user also comes under method overloading.
+
 > **UPDATING...**
 
  
