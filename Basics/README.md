@@ -2,21 +2,21 @@
 ## Table of contents:
 [1. classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#updating)
 
-[2. General form of class]()
+[2. General form of class](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#2-general-form-of-class-)
 
-[3. Declaring objects]()
+[3. Declaring objects](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#3-declaring-objects)
 
-[4. Methods]()
+[4. Methods](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#4-methods)
 
-[5. Method inside a class]()
+[5. Method inside a class](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#5-methods-inside-a-class)
 
-[6. returning value]()
+[6. returning value](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#6returning-value)
 
-[7. Method with parameter]()
+[7. Method with parameter](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#7-methods-with-parameter)
 
-[8. Constructors]()
+[8. Constructors](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#8-constructors)
 
-[9. Parameterized constructors]()
+[9. Parameterized constructors](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#9-parameterized-constructors)
 
 [10. The this keyword]()
 
@@ -291,6 +291,41 @@ class AdditionOfTwo{
 }
 ```
 The above program expects the user to give two values when the objects are created for the classes as there is no default value constructor it will shows error during the compile time if the user forgets to give the parameter for the objects during the initialization.
+
+## 10. The this keyword
+The **this** keyword is  used to refer the current object that has been called. it is majorly used to prevent naming classhed during assigning the local varibale to the instance variable through parameters.
+for example take the below program.
+```java
+class AddTwo{
+
+    int m ;
+    int n;
+
+    AddTwo(int i, int j){
+
+        i = i;
+        j = j;
+
+    }
+}
+```
+In the above class the class the instance variable is named same as the local variable which is enterd as a parameter now there will be a class for assigning a variable it will be like i = i for the paramter value is assigned to itself instead of assigning to the instance variables. to prevent this we need to use the **this** keyword which will refer the current object. While using the this keyword with a variable it refers the variable of the specific instance sot the above program can be written as below
+
+```java
+class AddTwo{
+
+    int m ;
+    int n;
+
+    AddTwo(int i, int j){
+
+        this.i = i;
+        this.j = j;
+
+    }
+}
+```
+now it takes the value from the parameter and assign the values to the curren objects variable without any clash.
 
 > **UPDATING...**
 
