@@ -31,8 +31,7 @@ public class Utils {
 	static {
         try {
             statement = connection.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
         }
     }
 	
@@ -44,9 +43,9 @@ public class Utils {
             queryResult = statement.executeQuery(loadQuery);
             int booksloaded = 0;
             while (queryResult.next()){
-                int i =queryResult.getInt(2);
-                booksAndQunatity.put(queryResult.getString(1),i );
-                uniqueBooksList.add(queryResult.getString(1));
+                int i =queryResult.getInt("book_quantity");
+                booksAndQunatity.put(queryResult.getString("book_name"),i );
+                uniqueBooksList.add(queryResult.getString("book_name"));
                 booksloaded++;
             }
             if (booksloaded<1){

@@ -21,20 +21,16 @@ public class BorrowThread extends Thread{
                     Thread.sleep(2000);
                 }
                 catch (InterruptedException e) {
-                    throw new RuntimeException(e);
                 }
         }
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
         }
         try {
             Utils.returnmethod(this.name);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
         }
-
     }
 
 }
