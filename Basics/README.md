@@ -252,6 +252,46 @@ Object with 2 parameters : 10
 Process finished with exit code 0
 ```
 
+## 9. Parameterized constructors
+Parameterized constructor example is given above. the constructor ecpects parameters to be passed during the creation of objects
+```java
+class AddTwo{
+
+    int m ;
+    int n;
+
+    AddTwo(int i, int j){
+
+        int m = i;
+        int n = j;
+
+    }
+
+    public int additionMethod(){ 
+
+        return m+ n;
+
+    }
+}
+
+class AdditionOfTwo{
+
+    public static void main (String args[]){
+
+        int a = 6;
+        int b = 4;
+        AddTwo obj1 = new AddTwo(a,b);  //parameters passed during creation of objects.
+
+
+        int c = obj1.additionMethod();
+        
+        System.out.println("Object with parameters : "+ c);
+
+    }
+}
+```
+The above program expects the user to give two values when the objects are created for the classes as there is no default value constructor it will shows error during the compile time if the user forgets to give the parameter for the objects during the initialization.
+
 > **UPDATING...**
 
  
