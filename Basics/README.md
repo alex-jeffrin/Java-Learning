@@ -24,11 +24,11 @@
 
 [12. Overloading constructors](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#12-constructor-overloading)
 
-[13. Objects as parameters]()
+[13. Objects as parameters](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#13-objects-as-parameters)
 
-[ Garbage collection]()
+[14. Garbage collection](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#14-garbage-collection)
 
-[ Finalize method]()
+[15. Finalize method](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#15-finalize-method)
 ## 1. classes 
   classes in other words are used defined data types. it also has its own default constructor.those constructors can also me overriden. class has varible declared it will be called as instance varable when an object is created.
 
@@ -454,8 +454,18 @@ Runtime.getRuntime().gc();
 There is no gurantee that the garbage collector runs at the specific time. By using the above two methods we request for the garbage collector from the JVM on which the application will be running.
 
 
+## 15. Finalize method
 
 
+Finalize is a method in java that is used to perfrom clean-up pocess when the garbage collector is called by the JVM. It is used with the objects while garbage collection. this process takes place before the destruction of an object. and it is invoke just befor the object is destroyed.
+
+this is a default method that has the super class Object class. we need to override this method incase if we want to do any actions that is prior to the garbage collection of that object. the finalize method by default looks like below.
+
+```java
+protected void finalize() throws Throwable{
+
+}
+```
 
 > **UPDATING...**
 
