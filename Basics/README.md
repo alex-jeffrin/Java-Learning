@@ -18,11 +18,11 @@
 
 [9. Parameterized constructors](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#9-parameterized-constructors)
 
-[10. The this keyword]()
+[10. The this keyword](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#10-the-this-keyword)
 
-[11. Overloading method]()
+[11. Overloading method](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#11-method-overloading)
 
-[12. Overloading constructors]()
+[12. Overloading constructors](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#12-constructor-overloading)
 
 [13. Objects as parameters]()
 
@@ -329,7 +329,49 @@ now it takes the value from the parameter and assign the values to the curren ob
 
 ## 11. Method overloading
 
-Metod overloading refers to defining methods with the same name multiple times. A best example where method overloading can be used is when we initiate objects with default constructors that are asking for values as arguments. for example if user enters arguments with different data type then these method overloading can be used by creating method with the same name but it asks for differnet datatype of parameter for better understanding lets take the below example.
+Method overloading refers to defining methods with the same name multiple times.  to handle differnt scenarios of caliing the methods
+
+A best example is that if we are having a function to add two numbers that takes two arguments as parameter. if the input is of int type there will be a seperate method to handle the int type method, another method will be there for handling the floating type. another type
+
+
+```java
+class AddTwo{
+
+    int m ;
+    int n;
+
+    public int additionTwo (int i, int j){
+      m = i;
+      n = j;
+      return m+n;
+    
+    }
+
+    public int additionTwo (float i, float j){
+      m = i;
+      n = j;
+      return m+n;
+    
+    }
+
+    public int additionTwo (double i, double j){
+      m = i;
+      n = j;
+      return m+n;
+    
+    }
+    
+}
+```
+
+This example relates with constructor overloading also, cause the constructor is also a method that is called at the initial stage of creating a object instance for a class.
+
+
+## 12. Constructor overloading 
+
+Conside the scenario. If an user is trying to create a constructor to initialize the value of instance varibles during the creation of the class objects.
+
+For example if user enters arguments with different data type then these constructor overloading can be used by creating method with the same name but it asks for differnet datatype of parameter for better understanding lets take the below example.
 
 ```java
 class AddTwo{
@@ -363,9 +405,60 @@ So, in the above example the object needs two values as an arguments but event i
 
 
 We have created three constructors that overloads the constructor methods. 
-this concept of creating constructors with the same name for handling different datatype input from the user also comes under method overloading.
+this concept of creating constructors with the same name for handling different datatype input from the user also comes under constructor overloading.
+
+## 13. Objects as parameters
+We can even pass objects as parameters for the methods that we use inside the classes. for example if we are having an object like box which is having its own dimension as height. width and breadth. we can use that object to assign those values to create a new object of the same class by passing this object as parameter and assigning by accessing the instance variable using the dot operator ( . ). Lets conside the example given below.
+
+```java
+
+class Box {
+  int height;
+  int width ;
+  int breadth;
+
+  Box(int i, int j, int  k) {
+    height = i;
+    width = j;
+    breadth = k;
+  }
+
+  Box(Box obj){
+    height = obj.height
+    width = obj.width
+    breadth = obj.breadth
+  }
+
+}
+
+```
+In the above example we can see that the object is passed as parameter and the instance variables of that object is referenced to the newly instanced object to be instanciated. this is method of passing object as a parameter.
+
+
+## 14. Garbage collection
+
+In our program we dynamically assign memory for the variables. so in oreder to save memory the garbage collector looks for the unused objects or the objects that are reference to null. It looks for the scope of the variable whether it is going to be used in later scenario else the garbage collector clears that memory.
+
+The garbage collector runs priodically at a inknown point of time. We need not want to worry about that. 
+
+but we can forcefully run the garbage collector by calling the static gc() method within the System class as metioned below.
+
+```java
+System.gc();
+```
+or 
+```java
+Runtime.getRuntime().gc();
+```
+
+There is no gurantee that the garbage collector runs at the specific time. By using the above two methods we request for the garbage collector from the JVM on which the application will be running.
+
+
+
+
 
 > **UPDATING...**
+
 
  
   
