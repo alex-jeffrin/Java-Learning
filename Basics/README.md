@@ -122,18 +122,75 @@ class MethodExample{
 
 ```
 
+## 6.Returning value
+In the ablove topic in the methodswe would have used a word called return value. the return value is a value that is reurned at the end of executing a statement from a metdhod to assign to other. so in the same example given above
 
 
+```java
+class classname {
+  access_modifier return_type method_name(type parameters){
 
+  //statements to be executed
+  //body of method
+  return value;
+ }
+}
 
+class MethodExample{
+  public static void main (String args[]){
+    classname obj1 = new classname();   //creating an object for the class
 
+    type variable = obj1.methodname();  //now this line calls the method and assign the returned value to the variable 
 
+  }
+}
 
+```
 
+we are able to see that we create an object and we assign the return value from the method to a new variable. which actually brings a returned value from the method that has been called.
 
+## 7. Methods with parameter
+The methods may have parameter, which are like boundries we need to give values without exceeding the boundries. for example if we declare a method that does addition of two values. we need to give a parameter with two variables. those 2 variables that are passed are called arguments.
 
+we need to declare the type we are going to pass as argument. The argument passed must match the datatype that has been defined in the parameter. lets se a sumple addition of two numbers program
 
+```java
+class AddTwo{
 
+    public int additionMethod(int m,int n){ //parameter with two variables of int datatype...
+
+        return m+ n;
+        
+    }
+}
+
+class AdditionOfTwo{
+    
+    public static void main (String args[]){
+        
+        int a = 6;
+        int b = 4;
+        AddTwo obj1 = new AddTwo();
+
+        int c= obj1.additionMethod(a,b);
+        System.out.println(c);
+        
+    }
+}
+```
+
+In the above program a varable c assigned to the methods return value. Initially it looks throught the method that has been called inside the object. Two values have been passed as argument which will enter the method and after entering, The method return the summation of two numbers as return value. the value returned will be assigned to the variable c. the output will be as below 
+
+### Output :
+
+```bash 
+c:\Users\ExampleProgram> javac AdditionOfTwo.java
+c:\Users\ExampleProgram> java AdditionOfTwo
+
+10
+
+Process finished with exit code 0
+```
 
 > **UPDATING...**
 
