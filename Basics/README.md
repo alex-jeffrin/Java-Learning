@@ -98,6 +98,29 @@ Declaring of objects are as follow
 ```
 
 
+## 5. Methods inside a class 
+a method inside a class can be accesed after the object is created for the class. after creation of the object those methods can be accessed using the dot (.) Operator as shown below.
+
+```java
+class classname {
+  access_modifier return_type method_name(type parameters){
+
+  //statements to be executed
+  //body of method
+  return value;
+ }
+}
+
+class MethodExample{
+  public static void main (String args[]){
+    classname obj1 = new classname();   //creating an object for the class
+
+    type variable = obj1.methodname();  //now this line calls the method and assign the returned value to the variable 
+
+  }
+}
+
+```
 
 
 
