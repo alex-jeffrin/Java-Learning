@@ -600,6 +600,52 @@ In the above code we create an object for the class with a default value of 10 u
 
 This is how methods inside the objects returns the objects as return values.
 
+## 18. Recursion 
+ 
+ Recusrsion is supported in java. It is a method of calling itself. A method is called by itself to make the complexity of the program simple.
+
+ Lets take the following example of finding the factorial of number.
+
+```java
+class Factorial {
+  int fact(int n){
+
+    int result;
+
+    if (n==1){
+      return 1;
+    }
+
+    result = fact((n-1)*n);
+
+  }
+}
+
+class RecursionExample{
+  public static void main (String args[]){
+
+    Factorial fc = new Factorial();
+
+    System.out.println("The factorial of 3 is : "+fc.fact(3));
+    System.out.println("The factorial of 4 is : "+fc.fact(4));
+    System.out.println("The factorial of 5 is : "+fc.fact(5));
+
+  }
+}
+```
+In the above program we are able to see that we have called a method that result which recursively calls it till n-1 when the limit reaches 1 it will be returned and miltiplied with the previous number and so on it gets repeated. and below is the output.
+
+### Output : 
+```bash
+c:\Users\ExampleProgram> javac RecursionExample.java
+c:\Users\ExampleProgram> java RecursionExample
+
+The factorial of 3 is : 6
+The factorial of 4 is : 24
+The factorial of 5 is : 120
+
+Process finished with exit code 0
+```
 
 
 > **UPDATING...**
