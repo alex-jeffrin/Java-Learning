@@ -29,6 +29,8 @@
 [14. Garbage collection](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#14-garbage-collection)
 
 [15. Finalize method](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#15-finalize-method)
+
+[16. Closer look at argument passing ](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#16-closer-look-at-argument-passing)
 ## 1. classes 
   classes in other words are used defined data types. it also has its own default constructor.those constructors can also me overriden. class has varible declared it will be called as instance varable when an object is created.
 
@@ -466,6 +468,139 @@ protected void finalize() throws Throwable{
 
 }
 ```
+## 16. Closer look at argument passing
+
+There are two types while passing the arguments to the parameters one is by value and one is by reference.
+
+while we use the call by value then the value that has be used for the argument doesnt changes its original value outside the method from where it has been called. for example take the below code.
+
+```java 
+class CallClass {
+
+  public void callTest (int i , int  j){
+    i *= i;
+    j *= j;
+  }
+}
+class CallExample {
+  public static void main (String args[]){
+    int a = 5;
+    int b = 6
+    CallClass call = new CallClass();
+
+    System.out.println("values of a and b before call : "+a+" "+b);
+    call.callTest(a,b);
+    System.out.println("values of a and b after call : "+a+" "+b);
+  }
+}
+```
+
+### Output :
+```bash 
+c:\Users\ExampleProgram> javac CallExample.java
+c:\Users\ExampleProgram> java CallExample
+
+values of a and b before call : 5 6
+values of a and b after call : 5 6
+
+Process finished with exit code 0
+```
+
+There is no change in the value outside the method or the variable that is  passed as an argument for that method.
+
+In the other case we use the refernce of an object to call the value. In such cases the values called by the reference actually changes the original value that is used in the reference variable. A goof example of this is passing an object type as argument hold the reference of the object which could change the value outside the method also .
+
+Consider the program given below.
+
+```java
+class CallClass {
+  int i;
+  int j;
+
+  CallClass(int i, int j){
+    this.i = i;
+    this.j = j;
+  }
+
+  public void callTest (CallClass obj){
+    obj.i += 5;
+    obj.j += 5; 
+  }
+}
+class CallExample {
+  public static void main (String args[]){
+    
+    CallClass call = new CallClass(10,15);
+
+    System.out.println("values of a and b before call : "+obj.i+" "+obj.j);
+    call.callTest(a,b);
+    System.out.println("values of a and b after call : "+obj.i+" "+obj.j);
+  }
+}
+```
+### Output :
+
+```bash 
+c:\Users\ExampleProgram> javac CallExample.java
+c:\Users\ExampleProgram> java CallExample
+
+values of a and b before call : 10 15
+values of a and b after call : 15 20
+
+Process finished with exit code 0
+```
+
+In the above program we are able to see that passing the object as a parameter changed the value inside the object reference so this is how the call by reference works.
+
+## 17. Returning objects 
+A method can also return an onject during the function call for example take the below code as an example
+
+```java
+class TestClass{
+  
+  int i;
+
+  TestClass(int i){
+    this.i = i;
+  }
+
+  public Testclass increaseByTen(){
+    TestClass temp = temp TestClass(i+10);
+    return temp;
+  }
+}
+class ReturnObj{
+  public static void main (String args[]){
+    TestClass obj = new TestClass(10);
+    obj2 = obj.increaseByTen();
+    obj3 = obj2.increaseByTen();
+
+    System.out.println("The value of obj : "+ obj.i)
+    System.out.println("The value of obj2 : "+ obj2.i)
+    System.out.println("The value of obj3 : "+ obj3.i)
+    
+  }
+}
+```
+
+### Output : 
+```bash
+c:\Users\ExampleProgram> javac ReturnObj.java
+c:\Users\ExampleProgram> java ReturnObj
+
+The value of obj : 10 
+The value of obj2 : 20
+The value of obj3 : 30
+
+Process finished with exit code 0
+```
+
+
+In the above code we create an object for the class with a default value of 10 using the constructor. after creating an object we are calling the increaseByTen method inside the object which returns an object by increasing the alue of the instance variable by 10. and then the object is then assigned to the new object variable. 
+
+This is how methods inside the objects returns the objects as return values.
+
+
 
 > **UPDATING...**
 
