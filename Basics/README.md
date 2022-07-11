@@ -75,15 +75,13 @@
 
 [34. Dynamic method dispatch](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#34-dynamic-method-dispatch)
 
-[35. Applying method overridding](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#35-applying-method-overridding)
+[35. Abstract classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#35-abstract-classes)
 
-[36. Abstract classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#36-abstract-classes)
+[36. using final to stop overriding](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#36-using-final-to-stop-overriding)
 
-[37. using final to stop overriding](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#37-using-final-to-stop-overriding)
+[37. Using final to prevent inheritance](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#37-using-final-to-prevent-inheritance)
 
-[38. Using final to prevent inheritance](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#38-using-final-to-prevent-inheritance)
-
-[39. Object class](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#39-object-classes)
+[38. Object class](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#38-object-classes)
 
 
 ## 1. classes 
@@ -1094,8 +1092,38 @@ in the above program we have declare i as private in the top most super class wh
 And in the class B we have declared j as a protected variable which will be accessed by the subclass. and ni the class C we have mad the k as public, It is also accessible by the following sub-classes. 
 
 >**Notes :** Remember that all the subclasses can access the member of super classes bu the super classes will not be aware of the members of subclasses.
-## 29. Using super first use and second use
+## 29. Using super
+**First use :**
+
 There is two ways in using the super keyword. first is used to call the conctructor of the parent class. it can be applicable in calling the methods also to call the methods of the parent classes we can user ther keyword super followed by dot operator (.) followed by the method name. incase if we  have to call the parent class's constructor we just need to use the super(). which must be the first statement inside a method.
+
+**Second use :**
+
+The second use of the super keyword is like this keyword if we are having sonstrictors that has the member variables in the same name. take the following example program
+```java
+class A{
+  int i;
+}
+class B extends A{
+  int i;
+  B(int n){
+    i = n;
+  }
+}
+```
+int the above piece of code we can see that there are two variables with the same name i and same type while initializing the value the instance variable of B hides the instance variable of A. In order to stop this and assign the new variable to the parent class we can use super to make this conflict clear. for example
+```java
+class A{
+  int i;
+}
+class B extends A{
+  int i;
+  B(int n){
+    super.i = n;
+  }
+}
+```
+this would solve the problem.
 ## 31. Multilevel
 We have seen a program that implements the multilevel hierarchy in inheritance and the below program implements the multilevel hierarchy of inheritance.
 
@@ -1187,14 +1215,164 @@ D's constructor.
 
 Process finished with exit code 0
 ```
-In the above example we are able to see that the constructors are getting executed on the order of derivation of the classes in the order which
+In the above example we are able to see that the constructors are getting executed on the order of derivation of the classes in the order which the classes have derivated from the parent class.
 ## 33. method overriding
+Method overriding refers to recreating the methods with the same name that exists in another class.
+For example.
+```java 
+class A {
+    private int i = 10;
+    int show(){
+        return i;
+    }
+}
+
+class B extends A{
+    int i = 29;
+    B(){
+        System.out.println("show method return the value of i from class B :"+show());
+        System.out.println("super.show() method return the value of i from class A :"+super.show());
+    }
+
+    int show() {
+
+        return i;
+    }
+
+}
+
+class constructorOverriding{
+    public static void main (String args[]){
+        B obj = new B();
+
+    }
+}
+```
+## Output:
+```bash
+c:\Users\ExampleProgram> javac constructorOverriding.java
+c:\Users\ExampleProgram> java constructorOverriding 
+
+show method return the value of i from class B :29
+super.show() method return the value of i from class A :10
+
+Process finished with exit code 0
+```
+In the above program we have overriden the show method in A by creating a medhod with same name in the class B which derives A as it's parent class.
+
+
 ## 34. Dynamic method dispatch
-## 35. Applying method overridding
-## 36. Abstract classes
-## 37. using final to stop overriding
-## 38. Using final to prevent inheritance
-## 39. Object class
+Dynamic dispatch is also called as runtime polymorphism. Lets take the following program.
+```java
+class A {
+    void show() {
+        System.out.println("The method inside A is called.");
+    }
+}
+
+class B extends A{
+
+    void show() {
+        System.out.println("The method inside B is called.");
+    }
+
+}
+
+class C extends B{
+    void show() {
+        System.out.println("The method inside C is called.");
+    }
+}
+
+class DynamicDispatch{
+    public static void main (String args[]){
+        A obj = new A();
+        B obj2 = new B();
+        C obj3 = new C();
+
+        obj.show();
+        obj2.show();
+        obj3.show();
+
+        A obj4 ;
+        obj4 = new B();
+        obj4.show();
+
+        obj4 = new C();
+        obj4.show();
+    }
+}
+```
+
+## Output :
+```bash 
+c:\Users\ExampleProgram> javac DynamicDispatch.java
+c:\Users\ExampleProgram> java DynamicDispatch 
+
+The method inside A is called.
+The method inside B is called.
+The method inside C is called.
+The method inside B is called.
+The method inside C is called.
+
+Process finished with exit code 0
+```
+In the above program we can see that the show method in the class A is overriden by the two subclasses. so inthis case the respective objects for the class may call the methohds. but we can call the methods of other classes by declaring a refernce type of parent class and assigning the object of a subclass. this is called as dynamic method dispatch. the program implements the same an reference of type A is declared and then the objects of the differenct classes that has the overriden methods are assigned to the referenced type. so that the method will be called based on the assigned object
+## 35. Abstract classes
+In some situations we might want a super class that declares a method that must be overriden by the classes that derives this class in that case we can use abstract classes. Inside the abstract classes we declare methods instead of defining the methods. after declaring methods the classes that extends the abstract class must override the methods that are declared in the abstract class.  We cannot create objects for the abstract classes instead we can extend this class by deriving and we can create obejects for the classes. look at the program below
+```java
+
+Abstract class A{
+  void display();
+}
+
+class B extends A{
+  void display(){
+    System.out.println("The class B has overriden the method display form the Abstract class.");
+  }
+}
+
+```
+In the above code we have the class A as a abstract class that has defined a method called display which must be overriden by the classes that inherits the abstract class. here the class B which extends the abstract class has overriden the show method of the abstract class.
+## 36. using final to stop overriding
+The final keyword before the variable makes the variable fial whicch is to make tha  unchangeable variable the same case happens here. If we declare a class that is said to be final then none other classes that extending the class containing the final method can be overriden. if we try to override the method of other classes it shows an error. for Example,
+
+```java
+class A{
+  final void display(){
+    System.out.println("The display method inside class A.");
+  };
+}
+
+class B extends A{
+  void display(){
+    System.out.println("The display method inside class B.");
+  }
+} 
+```
+If we look at the above code here the method inside the class A called Display is defined as a final method, so the display method inside the class A cannot be overriden by the subclasses if class A.
+
+>**Note :** note that the methods inside the abstract classes cannot be made as final. Because, the usage of the abstract class is to override the methods that has been defined inside the abstract class.so the final keyword cannot be used in the abstract classes or the methods that has be declared inside the abstract class.
+
+## 37. Using final to prevent inheritance
+Using final to stop inheritance is that if a class is made as final then the class cannot be inherited by anyother classes or in other words it cannot have any subclasses as like overriding and the alteration of variables is not possible when it is final. if we use the final keyword before the class then the class cannot be derived or it cannot have any subclasses. For example take the program given below.
+
+```java   
+final class A{
+  void display(){
+    System.out.println("The display method inside class A.");
+  };
+}
+
+class B extends A{      //this inheritance is not possible because the class A is declared as a final class whichh means that we cannot inherit this class.
+  void display(){
+    System.out.println("The display method inside class B.");
+  }
+}
+```
+It would probably throws an error cause, we are trying to inherit a class that has been declared as final.
+## 38. Object class
+We have a class named object class in java. all the other classes are the subclasses of the object class. so we use the default methods like toString(), equal(), wait(), notifyAll(), notify(), getClass().
 
 
 > **UPDATING...**
