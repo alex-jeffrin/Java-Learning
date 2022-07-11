@@ -1,4 +1,11 @@
-# Java Classes and methods
+# Java notes
+
+**The following readme carries notes for the following chapters**
+- **CHAPTER 6 Introducing Classes**
+- **CHAPTER 7 A Closer Look at Methods and Classes**
+- **CHAPTER 8 Inheritance and so on...**
+
+
 ## Table of contents:
 [1. classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#updating)
 
@@ -31,6 +38,54 @@
 [15. Finalize method](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#15-finalize-method)
 
 [16. Closer look at argument passing ](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#16-closer-look-at-argument-passing)
+
+[17. Returning objects ](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#17-returning-objects)
+
+[18. Recursion ](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#18-recursion)
+
+[19. Access control](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#19-access-control)
+
+[20. Static ](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#20-static)
+
+[21. Final](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#21-final)
+
+[22. Array length attribute](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#22-array-length-attribute)
+
+[23. Nested and inner classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#23-nested-and-inner-classes)
+
+[24. command line arguments](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#24-command-line-arguments)
+
+[25. Varargs : Variable length arguments](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#25-variable-length-arguments)
+
+[26. varargs overloading](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#26-varargs-overloading)
+
+[27. varargs and  ambiguity](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#27-varargs-and-ambiguity)
+
+[28. Inheritance](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#28-inheritance)
+
+[29. Member access and inheritance ](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#member-access-and-inheritance)
+
+[30. Using super first use and second use](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#30-using-super)
+
+[31. Multilevel](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#31-multilevel)
+
+[32. order or the constructors](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#32-order-of-the-constructor)
+
+[33. method overriding](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#33-method-overriding)
+
+[34. Dynamic method dispatch](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#34-dynamic-method-dispatch)
+
+[35. Applying method overridding](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#35-applying-method-overridding)
+
+[36. Abstract classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#36-abstract-classes)
+
+[37. using final to stop overriding](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#37-using-final-to-stop-overriding)
+
+[38. Using final to prevent inheritance](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#38-using-final-to-prevent-inheritance)
+
+[39. Object class](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#39-object-classes)
+
+
 ## 1. classes 
   classes in other words are used defined data types. it also has its own default constructor.those constructors can also me overriden. class has varible declared it will be called as instance varable when an object is created.
 
@@ -646,6 +701,500 @@ The factorial of 5 is : 120
 
 Process finished with exit code 0
 ```
+
+Here is another example for the usage of recursive function.
+ 
+```java
+import java.util.Scanner;
+
+class RecursiveClass{
+	
+	int values[];
+	
+	RecursiveClass(int i ){
+		values = new int[i];
+	}
+	
+	void recursivePrint(int i){
+		if (i==0)return ;
+		else recursivePrint(i-1);
+		System.out.println(values[i-1]);
+	}
+	
+	
+}
+
+class Recursive{
+	public static void main (String args[])
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Please enter the size of the array : ");
+		int size = sc.nextInt();		
+		RecursiveClass rc = new RecursiveClass(size);
+		int i;
+		for ( i = 0;i<size;i++){
+			rc.values[i]=i;
+		}
+		
+		rc.recursivePrint(size);
+		
+	}
+}
+```
+ In the above code the user is asked for the input size of the array and the array size is initilized using the constructor of the class. after that the values at each positions are assigned using an iterator. after assigning the values using the recursive method the valyyes inside the array is displayed
+
+## 19. Access control
+java prived four access modifiers as given below.
+  - Pulic 
+  - Private 
+  - Protected
+  - Default (Provided by default when no access specifier is mentioned.) 
+
+### Public :
+&emsp; the classes, methods, instance variales and static variables are accessible any where from the code, even from out the package.
+
+### Private :
+&emsp; The methods and variables that are declared as private has the scope within the class it has been declared. even inner classes cannot access the variable directly which are declared as private.
+
+### Protected: 
+&emsp; The methods and variables that are declared as protected can be accessed only if the class is a inherited or by using the package.
+
+### Default :
+&emsp; The default is applied when no access modifier is specified. when we dont declare any access specifier the class, methods or variables are accessible only within the package
+
+The table below shows the access levels of each modifiers.
+
+Access levels | Private | Default | Protected | Public
+---| ---| ---| ---| ---| 
+**within class** | Yes |Yes | Yes |Yes
+**within package** | No |Yes | Yes | Yes
+**outside package but subclass** | No | No | Yes | Yes
+**outside package** | No | No | No | Yes
+
+
+
+## 20. Static 
+Static keyword is used to methion the static variables and methods inside the java coe. every method and varaibles initialized as static are called first when the program is set to run. For example you would have seen a static block inside the main class. Yes exactly the static block befor the main class will execute first
+
+```java 
+class MainClass{
+  static {
+    System.out.println("Hi, this static block runs before the main method.");
+  }
+
+  public static void main (String args[]){
+    System.out.println("This runs after the static block is executed.")
+  }
+}
+```
+### Output : 
+```bash
+c:\Users\ExampleProgram> javac MainClass.java
+c:\Users\ExampleProgram> java MainClass
+
+Hi, this static block runs before the main method.
+This runs after the static block is executed.
+
+Process finished with exit code 0
+```
+In the above example we are able to see that the static block defined before the main method is called before the main method is executed.
+
+All the methods that are declared as a static can be accessed withot creating objects for that specific class. we can directly access the static methods using the dot operator as shown below.
+ ```java 
+ Classname.staicMethodname();
+ ```
+ We can event create objects for the static methods to be called but it is of no needed for static methods
+
+ All the variables that are declared as static remains the same for all the objects of that particular class.
+ Whenever an object is created for a class the instance variables that are declared as static will be the same and the variable declared as static will be shared between them and remains the same for all.
+## 21. Final
+When a varible is declared as final its values cannot be changed after initializing the value for the final variable
+
+For example,
+
+```java
+final int i;
+```
+this declares a final variable named i of type int.
+
+```java
+i = 10;   //Accepted.
+
+i = 16;   //Not Accepted.
+```
+After declaring a variable as a final variable once the value is assigned it cannot be modified. sam in the above code once the final variable i assigned to a valu 10 its not able to change the value of i. An attempt to change the value of i causes an error.
+
+It is mostly used in the case of declaring constatnt variable so that the value cannot be changed inevitably.
+
+## 22. Array length attribute
+There is a length attibute in array, which is very useful in knowing the size of an array that has been declared. and also a main thing to notice is that the length of the array attribute has nothing to do with the number of elements that are present in the array. 
+
+It just shows the size of an array.
+```java
+
+int arr[] = new int[10];
+arr = {1,2,3,4,5};
+
+System.out.println(arr.length);
+
+```
+We can see that there are only 5 values in that array but the actual size of the array is 10 and the length attribute of the array returns only the size of the array.
+## 23. Nested and inner classes
+As like methioned all the classes can have its own nested classes in java
+those nested classes have all the properties of the super classes. it have access to all the members of the super class.
+## 23. String class
+The String is by default it is a class, whenever we try to create a string using the type String whe String implictity refers to a object type in java
+
+```java
+String newString = "This is a new string";
+```
+is same as,
+
+```java
+String newString = new String("This is a new string");
+```
+event though we didnt mention the new keyword in fir method it implicitly creates as an object.
+## 24. command line arguments
+The command line arguments are arguments that are passed along with the compiling of the main program in the command line for example,
+
+``` bash 
+c:\Users\ExampleProgram> javac MainClass.java
+c:\Users\ExampleProgram> java MainClass This is a commandline argument
+```
+
+the sentence that is followed by the command is metioned as arguments that are passed through command line that are called as command line arguments.
+
+these arguments are stored in the args[] array which is a parameter passed thoright the main method.
+```java
+public static void main (String args[]){
+  ........
+}
+```
+## 25. Varargs : Variable length arguments
+varargs represents variable length arguments. this var args is used to define a method with variable length of arguments. For example, if there is a method with two arguments then the method must receive only two arguments. and it should not be above or below two arguments in this case if the user enter more arguments it shows an error. what if there is a method which may need more than 2 somethime and sometimes it needs less arguments. it can be achieved using the varargs(Variable length argument.)
+
+the varargs is mentioned using dataype ... (Thriple dots). datatype followed by thriple dots followed by variable name Which stores the values as arrays.
+```java
+public int exampleMethod (int...n){
+
+  // Statements to be executed
+
+}
+```
+lets consider the example program given below.
+
+```java
+class VarargsClass{
+
+    int values[];
+
+    RecursiveClass(int ... i ){
+        values = i;
+        for (int x: values) {
+            System.out.print(x +" ");
+        }
+        System.out.println();
+    }
+
+}
+
+class VarargsExample{
+    public static void main (String args[])
+    {
+
+        System.out.print("Parameters of 1st object :");
+        VarargsClass obj1 = new VarargsClass(1,23,56,7,8,9,7);
+        System.out.print("Parameters of 2nd object :");
+        VarargsClass obj2 = new VarargsClass();
+        System.out.print("Parameters of 3rd object :");
+        VarargsClass obj3 = new VarargsClass(1,2,3);
+
+    }
+}
+```
+### Output:
+``` bash 
+c:\Users\ExampleProgram> javac VarargsClass.java
+c:\Users\ExampleProgram> java VarargsClass 
+
+Parameters of 1st object :1 23 56 7 8 9 7 
+Parameters of 2nd object :
+Parameters of 3rd object :1 2 3 
+
+Process finished with exit code 0
+
+```
+in he above programwe have a constructor that can hava one or more arguments even zero arguments. this is refered as the variable length arguments.
+
+## 25. varargs overloading
+varargs overloading is similar to constructor overloading based on the variable length arguments the methods will be overloaded. for the varargs overloading example lets take the same constructor with var args but this time its overloaded
+
+```java
+class VarargsClass{
+
+    VarargsClass(int ... i ){
+
+        for (int x: i) {
+            System.out.print(x +" ");
+        }
+        System.out.println();
+    }
+    VarargsClass(boolean ... i ){
+        for (boolean x: i) {
+            System.out.print(x +" ");
+        }
+        System.out.println();
+    }
+
+}
+
+class Recursive{
+    public static void main (String args[])
+    {
+
+        System.out.print("Parameters of 1st object :");
+        VarargsClass obj1 = new VarargsClass(1,23,56,7,8,9,7);
+        System.out.print("Parameters of 2nd object :");
+        VarargsClass obj2 = new VarargsClass(true,true,false,true,false);
+        System.out.print("Parameters of 3rd object :");
+        VarargsClass obj3 = new VarargsClass(1,2,3);
+        System.out.print("Parameters of 4th object :");
+        VarargsClass obj4 = new VarargsClass(true,true);
+
+    }
+}
+```
+### Output:
+``` bash 
+c:\Users\ExampleProgram> javac VarargsClass.java
+c:\Users\ExampleProgram> java VarargsClass 
+
+Parameters of 1st object :1 23 56 7 8 9 7 
+Parameters of 2nd object :true true false true false 
+Parameters of 3rd object :1 2 3 
+Parameters of 4th object :true true 
+
+Process finished with exit code 0
+
+```
+So in the above class we have overloaded the constructor for accepting varargs but bassed on different datatype.
+## 26. varargs and  ambiguity
+varargs ambiguity is like when we are declaring variable length argument. in the case if we overload the constructor for different types and thos metho only varargs it'll get confused for example take the below code. 
+
+```java
+class RecursiveClass{
+
+    RecursiveClass(int ... i ){
+
+        for (int x: i) {
+            System.out.print(x +" ");
+        }
+        System.out.println();
+    }
+    RecursiveClass(boolean ... i ){
+        for (boolean x: i) {
+            System.out.print(x +" ");
+        }
+        System.out.println();
+    }
+
+}
+
+class Recursive{
+    public static void main (String args[])
+    {
+
+        System.out.print("Parameters of 1st object :");
+        RecursiveClass obj1 = new RecursiveClass(1,23,56,7,8,9,7);
+        System.out.print("Parameters of 2nd object :");
+        RecursiveClass obj2 = new RecursiveClass(true,true,false,true,false);
+        System.out.print("Parameters of 3rd object :");
+        RecursiveClass obj3 = new RecursiveClass(1,2,3);
+        System.out.print("Parameters of 4th object :");
+        RecursiveClass obj4 = new RecursiveClass(true,true);
+
+        System.out.print("Parameters of 5th object :");
+        //RecursiveClass obj5 = new RecursiveClass();
+
+    }
+}
+```
+In this java program we have overloaded the constructor with varargs parameter.if we are giving no arguments during the creation of objects then it will be confused where to go. either for boolean or int. in this care we need to have another method or constructor for this case. this is called as varargs and ambiguity. 
+## 27. Inheritance
+Inheritance is the cornerstone in OOP's concept in java. java support 3 types of inheritance namely
+- Single inheritance
+
+&emsp;&emsp;&emsp;&emsp; A class that can have one child or one subclass is called single inheritance 
+
+- Multilevel inheritance
+
+&emsp;&emsp;&emsp;&emsp; A class which is a subclass of another class acting as a parent of another class which also subclass and parent class for the below class and goes on 
+
+- Hierarchial inheritance
+
+&emsp;&emsp;&emsp;&emsp; A class that will be having two or more sublasses is called Hierarchial inheritance.
+
+> **Note:** Multiple inheritance is not supported in java cause there migth be conflict when deriving two classes having method overridden but the method definition changes.
+
+To derive a class we can user the keyword extend. For example, look at the program below 
+
+```java
+class A {
+  int i;
+}
+
+class B extends A{
+  int j;
+}
+
+class C extends B{
+  int k
+}
+
+```
+In this program we have used multilevel inheritance. B derives A and B has access to all the members of A class, and C derives B class which has all access of A class, Now C has access of both A and B class as well. For restricting access lets look at next topic
+
+## 28. Member access and inheritance 
+We can restric the access during inheritance by using access specifiers.
+for example conside the follwoing code.
+
+```java
+class A {
+  private int i;
+}
+
+class B extends A{
+  protected int j;
+}
+
+class C extends B{
+  public int k
+}
+
+class C extends B{
+  
+  C(){
+  System.out.println(i);    //This variable is not accessible here and, shows error
+  System.out.println(j);
+  System.out.println(k);
+  }
+  
+}
+
+class InheritanceExample{
+  public static void main (String args[]){
+    C obj = new C();
+  }
+}
+
+```
+in the above program we have declare i as private in the top most super class which is not even accessible by the immediate subclass. so it cannot be acces outside to the class which it has been declared.
+
+And in the class B we have declared j as a protected variable which will be accessed by the subclass. and ni the class C we have mad the k as public, It is also accessible by the following sub-classes. 
+
+>**Notes :** Remember that all the subclasses can access the member of super classes bu the super classes will not be aware of the members of subclasses.
+## 29. Using super first use and second use
+There is two ways in using the super keyword. first is used to call the conctructor of the parent class. it can be applicable in calling the methods also to call the methods of the parent classes we can user ther keyword super followed by dot operator (.) followed by the method name. incase if we  have to call the parent class's constructor we just need to use the super(). which must be the first statement inside a method.
+## 31. Multilevel
+We have seen a program that implements the multilevel hierarchy in inheritance and the below program implements the multilevel hierarchy of inheritance.
+
+```java
+class A {
+    private int i;
+}
+
+class B extends A{
+    protected int j = 10;
+}
+
+class C extends B{
+    public int k = 20;
+}
+
+class D extends C{
+
+    D(){
+        //System.out.println(i);    //This variable is not accessible here and, shows error
+        System.out.println(j);
+        System.out.println(k);
+    }
+
+}
+
+class Recursive{
+    public static void main (String args[]){
+        D obj = new D();
+    }
+}
+```
+The above program will give the following output.
+
+## Output:
+```
+c:\Users\ExampleProgram> javac VarargsClass.java
+c:\Users\ExampleProgram> java VarargsClass 
+
+10
+20
+
+Process finished with exit code 0
+```
+## 32. order or the constructors
+The constructor of the classes executes in the order  of derivation. for example if we have a class A which has a subclass B and B also has its own subclass which is in multilevel inheritance. the constructors of each classes executes in the order of derivation of the classes. for example lets consider the below program 
+```java
+class A {
+    A(){
+        System.out.println("A\'s constructor ");
+    }
+}
+
+class B extends A{
+    B(){
+        System.out.println("B\'s constructor.");
+    }
+}
+
+class C extends B{
+    C (){
+        System.out.println("C\'s constructor.");
+    }
+}
+
+class D extends C{
+
+    D(){
+        System.out.println("D\'s constructor.");
+    }
+
+}
+
+class ConstructorOrder{
+    public static void main (String args[]){
+        D obj = new D();
+    }
+}
+```
+## Output:
+```bash 
+c:\Users\ExampleProgram> javac VarargsClass.java
+c:\Users\ExampleProgram> java VarargsClass  
+
+A's constructor 
+B's constructor.
+C's constructor.
+D's constructor.
+
+Process finished with exit code 0
+```
+In the above example we are able to see that the constructors are getting executed on the order of derivation of the classes in the order which
+## 33. method overriding
+## 34. Dynamic method dispatch
+## 35. Applying method overridding
+## 36. Abstract classes
+## 37. using final to stop overriding
+## 38. Using final to prevent inheritance
+## 39. Object class
 
 
 > **UPDATING...**
