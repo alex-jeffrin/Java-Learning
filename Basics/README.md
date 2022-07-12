@@ -1,10 +1,10 @@
 # Java notes
 
 **The following readme carries notes for the following chapters**
-- **CHAPTER 6 Introducing Classes**
-- **CHAPTER 7 A Closer Look at Methods and Classes**
-- **CHAPTER 8 Inheritance and so on...**
-
+- [x] **CHAPTER 6 Introducing Classes**
+- [x] **CHAPTER 7 A Closer Look at Methods and Classes**
+- [x] **CHAPTER 8 Inheritance**
+- [ ] **CHAPTER 9 Packages and Interfaces ( Updating... )**
 
 ## Table of contents:
 [1. classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#updating)
@@ -81,7 +81,26 @@
 
 [37. Using final to prevent inheritance](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#37-using-final-to-prevent-inheritance)
 
-[38. Object class](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#38-object-classes)
+[38. Object class](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#38-object-class)
+
+[39. Packages](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#39-packages)
+
+[40. Access protection](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#40-access-protection)
+
+[41. Importing packages](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#41-importing-packages)
+
+[42. Interfaces](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#42-interfaces)
+
+[43. Implementing interfaces](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#43-implementing-interfaces)
+
+[44. Partial implementation](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#44-partial-implementation)
+
+[45. Nested interfaces](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#45-nested-interfaces)
+
+[46. Applying interfaces](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#46-applying-interfaces)
+
+[47. interfaces can be extended](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#47-interfaces-can-be-extended)
+
 
 
 ## 1. classes 
@@ -1374,6 +1393,93 @@ It would probably throws an error cause, we are trying to inherit a class that h
 ## 38. Object class
 We have a class named object class in java. all the other classes are the subclasses of the object class. so we use the default methods like toString(), equal(), wait(), notifyAll(), notify(), getClass().
 
+## 39. Packages
+Packages are like containers that keep our class files namspaces seperated in order to protect from namespace conflicts. Pakages are nothing but maintaining classes in the folders. there can be more than one classes inside the package folder. It will be in a hierarchy manner with easy to use namespaces. For example, consider you are creating a class named Library if there is another classnamed Library which is created by another person there will be a name space conflict. in order to avoid that we can create out own packages.
+
+### Advantages of Packages
+- It removes naming collisions
+- It provides some access levels for the classes.
+- It is used to categorize the classes and Interfaces to maintain easy accessibilities.
+
+So, Now how can we define package for our program its so much easy we must use the `package` keyword
+if we need to define a package for this program Library.java we need to use the define keyword followed by the new package name we are going to use. So lets define a package for the above program.
+
+```java
+package MyPackage;
+
+class Library{
+  public static void main (String args[]){ 
+    ..........
+```
+Now the above progrma is defined to the package named MyPackage. and we need to make sure that the program we define inside the package must be present in the folder with the same name of package. For example, the folder path for the above program will be like 
+
+```bash   
+c:\Users\JavaSamplePrograms\myPackage> 
+```
+So as like metioned above the package defined inside the program must be present in the directory which has the same name space
+
+>**Note :** A special point to note is that the package namspace are mostly written in small letter in order to avoid name space conflict in case of having same name for package and class name.
+
+So now we have defined package for our program. How will the Java Runtime knows the classfiles inside the package. It can be done in three ways
+- The first way is that the classes are in subfolders inside the immidiate working directory. In other words the package folders are sub-directories of the working directory.
+
+- The second way is by defining the CLASSPATH variable in the system varibale setting 
+
+- The third way is by defining the -class
+
+## 40. Access protection
+Java class is a small piece of abstraction of code cause, If we declare private variables inside the class then it is not available outsde that class. We have seen the access protection given by the access modifiers in the preceding topics. here is the table of access protection.
+
+Access levels | Private | Default | Protected | Public
+---| ---| ---| ---| ---| 
+**within class** | Yes |Yes | Yes |Yes
+**within package** | No |Yes | Yes | Yes
+**outside package but subclass** | No | No | Yes | Yes
+**outside package** | No | No | No | Yes
+
+here the access protection for the packages and the access outside the packages are also shown above.
+
+## 41. Importing packages
+In order to use tha packages that we have created we need to import them into our program. to import those packages we can use the `import `keyword.
+
+consider a package called mypackage is there we have an Addition class which has the add method for adding two numbers then we need to import the package like 
+```bash
+import mypackage.Addition;
+```
+it imports the Addition class along with the methods inside it so we can use it like follow
+```java
+import mypackage.Addition;
+
+class MainClass {
+  public static void main (String args[]){
+    int a = 9;
+    int b = 6;
+    int c = Addition.sum(a,b);
+
+    System.out.println(c);
+  }
+}
+```
+inside the Addition class :
+```java
+Package mypackage;
+
+public class Addition{
+  public static int sum (int i, int j){
+    return i+j;
+  }
+}
+```
+We have defined that the above class is a part of mypackage. The sum method inside the addition class returns the addition of the two arguments that has been passed.
+
+In the main class we have imported the Addition class that contains the sum method by adding the import mypackage in main class.and after that in the value of c we have called the static method sum of that class to get a return value and the return value is assigned to the variable c.
+
+## 42. Interfaces
+## 43. Implementing interfaces
+## 44. Partial implementation
+## 45. Nested interfaces
+## 46. Applying interfaces
+## 47. interfaces can be extended
 
 > **UPDATING...**
 
