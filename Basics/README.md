@@ -1478,10 +1478,12 @@ In the main class we have imported the Addition class that contains the sum meth
 Interfaces are considered as requirement specifications. for example lets take a scenario is a person is asking for features which he wants as mandatory. and the service provider who is going to complete the task must implement all the needs that have been asked for. so the interface contains all the methods that are needed as mandatory. but it will just declare the methods that are in need. the class that is going to implement this interface is going  to fill those methods or define those methods.  It is mandatory that all the classes that implements the interface must override the abstract methods that has been declared inside the interface. In case if a method inside an Interface is not overriden by the class that extends this interface. the Interface looks similar to the classes but it is defined  by the `interface` keyword. following is an example.
 
 ```java
-interface _Interface_name_
+interface Interface_name{
+
+  access type method(); //just declaration  
+
+}
 ```
-
-
 
 ## 43. Implementing interfaces
 As like subclasses uses extend to  derive a super class here we use `implements` keyword to implement the interfaces. lets see how to implement interface.
@@ -1512,10 +1514,203 @@ class InterfaceClass{
 ```
 so in the above example the client asked for two requirements which are mandatory so it is in interface the service provider who is going to take over the customers works must implement all the requirements that are described inside interface. That is the exact same thing happening here. When the ServiceProvider class implements the customer interface it must override all the abstract methods inside the interface. here the ServiceProvider class have overriden the methods and it is a clear implementation of interface.
 ## 44. Partial implementation
-## 45. Nested interfaces
-## 46. Applying interfaces
-## 47. interfaces can be extended
+now we have seen the implementation of interfaces. when a class is implementing an interface then the class must give a full implementation of an interface. if the class is unable to fully implement an interface then it show error in order to avoid this we can make tha class as abstract which implements the interface. If we declare the class as `abstract` it is assumed as a incomplete class the class is not completed fully.but if any other class that extends the abstract class that implements an inteface which does not implement a interface completely then the subclass is responsible for the implemention if the subclass does not procide any implementation then it also shows error.
+conside the below example. consider the below example program.
 
+```java
+interface Client{
+    public void run();
+    public void walk();
+}
+
+abstract class ServiceProvider implements Client{
+
+    public void run() {
+        System.out.println("Client can run now.");
+
+    }
+}
+
+class SubServiceProvider extends ServiceProvider{
+
+    public void walk() {
+        System.out.println("Client can walk now.");
+
+    }
+}
+
+public class InterfaceExample {
+
+    public static void main (String args[]){
+        ServiceProvider obj = new SubServiceProvider();
+
+        obj.run();
+        obj.walk();
+    }
+
+}
+
+```
+
+In the above program the class that implements the Client interface is not fully completed and so the class is made abstract.
+## 45. Nested interfaces
+Nestead interfaces are interface that are declared inside the classes or another interfaces. for example if there is an interface like application that interface will have the fetures of that application and within each feature there will be many methods to make the feature work. so the each seperate feature inside the interface can also be considered as interface of features. lets see an example how an nested interface looks and hwo they can be implemented
+## 46. Applying interfaces 
+Lets implement interface with an example.
+```java
+interface Watch {
+    void showTime();
+    void showDate();
+    void ShowSeconds();
+}
+
+class DialWatch implements Watch{
+
+    @Override
+    public void showTime() {
+        System.out.println("showing time...");
+    }
+
+    @Override
+    public void showDate() {
+        System.out.println("showing date...");
+    }
+
+    @Override
+    public void ShowSeconds() {
+        System.out.println("showing seconds...");
+    }
+}
+
+public class ApplyInterface {
+    public static void main (String args[]){
+        DialWatch obj = new DialWatch();
+        obj.showDate();
+        obj.showTime();
+        obj.ShowSeconds();
+    }
+}
+
+```
+### Output :
+
+```bash
+c:\Users\ExampleProgram> javac ApplyInterface.java
+c:\Users\ExampleProgram> java ApplyInterface 
+
+showing date...
+showing time...
+showing seconds...
+
+Process finished with exit code 0
+```
+In the above program we have declared an interface which has been extended by the dialwatch class and all the abstract methods given inside the interface are overriden.hence the above program works perfectly.
+## 47. interfaces can be extended
+We can even extend interfaces as like classes extends another class. the reason for extended interface is, Lets consider an example we have an interface vehicle. Whatever the vehicle might be like car, bike,boat or anything. but the essetial need of vehicle is service so lets make the service method inside the vehicle interface and the second things lets consider fuel. each vehicle needs fuel. so lets declare the fuel method inside the vehicle interface. and now we are having two wheeler which has different features and four wheeler has different features 
+so by extending two different interface we can seperate them and easy to maintain. we dont need to implement the two wheeler methods to the car methods thats the concept.
+below is an example program for the extended interfaces
+
+```java
+interface vehicle {
+    void serviceCondition();
+    void fuelMethod();
+}
+interface TwoWheeler extends vehicle{
+    void standCheck();
+    void ridersCheck();
+}
+interface fourWheeler extends vehicle{
+
+    void banetCheck();
+
+    void seatBeltCheck();
+}
+
+class volkswagon implements fourWheeler{
+
+    @Override
+    public void serviceCondition() {
+        System.out.println("two months once..");
+    }
+
+    @Override
+    public void fuelMethod() {
+        System.out.println("diesel type");
+    }
+
+    @Override
+    public void banetCheck() {
+        System.out.println("check the roof is good");
+    }
+
+    @Override
+    public void seatBeltCheck() {
+        System.out.println("Seatbelt is mandatory");
+    }
+}
+
+class Tvs implements TwoWheeler{
+
+    @Override
+    public void serviceCondition() {
+        System.out.println("four month once ");
+    }
+
+    @Override
+    public void fuelMethod() {
+        System.out.println("fuel method is petrol.");
+    }
+
+    @Override
+    public void standCheck() {
+        System.out.println("check whether the stand is pulled in before ride.");
+    }
+
+    @Override
+    public void ridersCheck() {
+        System.out.println("only two persons are allowed to ride usign two wheeler.");
+    }
+}
+
+public class ExtendedInterface {
+
+    public static void main(String[] args) {
+        Tvs bike = new Tvs();
+        bike.fuelMethod();
+        bike.ridersCheck();
+        bike.ridersCheck();
+        bike.fuelMethod();
+
+        System.out.println();
+
+        volkswagon car = new volkswagon();
+        car.banetCheck();
+        car.fuelMethod();
+        car.seatBeltCheck();
+        car.serviceCondition();
+    }
+
+}
+
+```
+### Output :
+
+```bash
+c:\Users\ExampleProgram> javac ExtendedInterface.java
+c:\Users\ExampleProgram> java ExtendedInterface 
+
+fuel method is petrol.
+only two persons are allowed to ride usign two wheeler.
+only two persons are allowed to ride usign two wheeler.
+fuel method is petrol.
+
+check the roof is goof
+diesel type
+Seatbelt is mandatory
+two months once..
+
+Process finished with exit code 0
+```
 > **UPDATING...**
 
 
