@@ -4,7 +4,8 @@
 - [x] **CHAPTER 6 Introducing Classes**
 - [x] **CHAPTER 7 A Closer Look at Methods and Classes**
 - [x] **CHAPTER 8 Inheritance**
-- [ ] **CHAPTER 9 Packages and Interfaces ( Updating... )**
+- [x] **CHAPTER 9 Packages and Interfaces**
+- [ ] **CHAPTER 10 Exception Handling( Updating... )**
 
 ## Table of contents:
 [1. classes](https://github.com/alex-jeffrin/INCUBATION_PROCESS/tree/master/Basics#updating)
