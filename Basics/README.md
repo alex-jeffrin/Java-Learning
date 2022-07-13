@@ -1423,9 +1423,9 @@ So as like metioned above the package defined inside the program must be present
 So now we have defined package for our program. How will the Java Runtime knows the classfiles inside the package. It can be done in three ways
 - The first way is that the classes are in subfolders inside the immidiate working directory. In other words the package folders are sub-directories of the working directory.
 
-- The second way is by defining the CLASSPATH variable in the system varibale setting 
+- The second way is by defining the CLASSPATH variable in the system varibale setting. 
 
-- The third way is by defining the -class
+- The third way is by defining the -classpath.
 
 ## 40. Access protection
 Java class is a small piece of abstraction of code cause, If we declare private variables inside the class then it is not available outsde that class. We have seen the access protection given by the access modifiers in the preceding topics. here is the table of access protection.
@@ -1475,7 +1475,42 @@ We have defined that the above class is a part of mypackage. The sum method insi
 In the main class we have imported the Addition class that contains the sum method by adding the import mypackage in main class.and after that in the value of c we have called the static method sum of that class to get a return value and the return value is assigned to the variable c.
 
 ## 42. Interfaces
+Interfaces are considered as requirement specifications. for example lets take a scenario is a person is asking for features which he wants as mandatory. and the service provider who is going to complete the task must implement all the needs that have been asked for. so the interface contains all the methods that are needed as mandatory. but it will just declare the methods that are in need. the class that is going to implement this interface is going  to fill those methods or define those methods.  It is mandatory that all the classes that implements the interface must override the abstract methods that has been declared inside the interface. In case if a method inside an Interface is not overriden by the class that extends this interface. the Interface looks similar to the classes but it is defined  by the `interface` keyword. following is an example.
+
+```java
+interface _Interface_name_
+```
+
+
+
 ## 43. Implementing interfaces
+As like subclasses uses extend to  derive a super class here we use `implements` keyword to implement the interfaces. lets see how to implement interface.
+```java 
+interface Client {
+  public void run();
+  public void walk();
+}
+
+class ServiceProvider implements Client{
+  public void run(){
+    System.out.println("Client can run now.");
+  }
+  public void walk(){
+    System.out.println("Client can walk now.");
+  }
+}
+
+class InterfaceClass{
+  public static void main (String args[]){
+
+    ServiceProvide obj = new ServiceProvider();
+
+    obj.run();
+    obj.walk();
+  }
+}
+```
+so in the above example the client asked for two requirements which are mandatory so it is in interface the service provider who is going to take over the customers works must implement all the requirements that are described inside interface. That is the exact same thing happening here. When the ServiceProvider class implements the customer interface it must override all the abstract methods inside the interface. here the ServiceProvider class have overriden the methods and it is a clear implementation of interface.
 ## 44. Partial implementation
 ## 45. Nested interfaces
 ## 46. Applying interfaces
