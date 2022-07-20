@@ -54,17 +54,18 @@ public class Library {
         }
 
         Utils libraryMethods = new Utils();
-        Utils.setBooksQuantity();
+        // Utils.setBooksQuantity();
 
         int option = 1;
         while (option != 0){
             System.out.println("Please select an option to procees:\n" +
-                    "1 - to add books.\n" +
-                    "2 - to display books.\n" +
-                    "3 - to Search.\n" +
-                    "4 - to Borrow.\n" +
-                    "5 - to view history.\n" +
-                    "0 - to exit.\n");
+                    "1 - To add books.\n" +
+                    "2 - To display books.\n" +
+                    "3 - To search for books.\n" +
+                    "4 - To borrow book.\n" +
+                    "5 - To view history.\n" +
+					"6 - To reload database.\n" +
+                    "0 - To exit.\n");
             try{
                 System.out.print("Enter your option : ");
                 Scanner sc = new Scanner(System.in);

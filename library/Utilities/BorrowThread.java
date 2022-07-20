@@ -15,20 +15,20 @@ public class BorrowThread extends Thread{
     @Override
     public void run() {
 
-        while (!Utils.borrowmethod(this.name)){
+        while (!Utils.borrowMethod(this.name)){
 
-                try {
-                    Thread.sleep(2000);
-                }
-                catch (InterruptedException e) {
-                }
+            try {
+                Thread.sleep(2000);
+            }
+            catch (InterruptedException e) {
+            }
         }
         try {
             Thread.sleep(5000);
         } catch (Exception e) {
         }
         try {
-            Utils.returnmethod(this.name);
+            Utils.returnMethod(this.name);
         } catch (Exception e) {
         }
     }

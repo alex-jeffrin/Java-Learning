@@ -1,6 +1,6 @@
 package Utilities;
 
-
+import Utilities.BookDetails;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -11,16 +11,19 @@ public class Utils {
     static List<String> booksList  = new LinkedList<>() ;
     static HashSet<String> uniqueBooksList = new HashSet<String>();
     static TreeMap<String,Integer> booksAndQunatity = new TreeMap<String, Integer>();
+    static TreeMap<String,String> authorDetails = new TreeMap<String, String>();
     static String bookInput = new String();
     static List<String> books = new ArrayList<>();
     static String neededBook;
+    static int copies ;
+    static int yearOfPublish ;
     static String jdbcURL = "jdbc:postgresql://localhost:5432/LibraryDatabase";
     static String username = "postgres";
     static String password = "root";
     public static Connection connection;
-	public static Statement statement;
-	
-	
+    public static Statement statement;
+
+
     static {
         try {
             connection = DriverManager.getConnection(jdbcURL,username,password   );
@@ -28,15 +31,16 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
-	static {
+    static {
         try {
             statement = connection.createStatement();
         } catch (Exception e) {
         }
     }
-	
-	
+
+
     public static void loadDB(){
+		
         ResultSet queryResult = null;
         try {
             String loadQuery = "SELECT * FROM public.library_db";
@@ -64,54 +68,60 @@ public class Utils {
     }
 
 
-    public static void insertBooks() throws SQLException {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter book names : ");
-        bookInput = sc.nextLine();
-        if (!bookInput.isEmpty()){
-            books = Arrays.asList(bookInput.split(","));
-            System.out.println(books);
-            for (String x : books){
-                booksList.add(x);
-            }
-            Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
-            String strDate= formatter.format(date);
-            String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','books added : "+books+"','Insert')";
-            statement.executeUpdate(sqlQuery);
-        }
-        setBooksQuantity();
-    }
-
-
-    public static void setBooksQuantity(){
-        for (String x :books)
-            if (!uniqueBooksList.contains(x)){
-                try {
-                    String sqlQuery = "INSERT INTO public.library_db (book_name,book_quantity) VALUES ('"+x+"',1)";
+    public static void insertBooks(){
+		BookDetails book = new BookDetails();
+        book.getBookDetails();
+        book.showBookDetail();
+		booksList.add(book.bookName);
+		Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+        String strDate= formatter.format(date);
+        try{
+			String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','book added : "+book.bookName+"','Insert')";
+			statement.executeUpdate(sqlQuery);
+		}
+		catch(Exception e){
+			System.out.println("unable to add history...");
+		}
+		booksList.add(book.bookName);
+		if (uniqueBooksList.isEmpty()){
+			try {
+                    String sqlQuery = "INSERT INTO public.library_db (book_name,book_quantity) VALUES ('"+book.bookName+"',"+book.copies+")";
                     int rows = statement.executeUpdate(sqlQuery);
                     if (rows>0){
                         System.out.println("book has been added...");
                     }
                 } catch (SQLException e) {
-                    System.out.println(e);
+                    
                 }
-                uniqueBooksList.add(x);
-                booksAndQunatity.put((String) x,1);
-//                System.out.println("in new collections "+booksAndQunatity);
+		}
+		if (!uniqueBooksList.contains(book.bookName)){
+                try {
+                    String sqlQuery = "INSERT INTO public.library_db (book_name,book_quantity) VALUES ('"+book.bookName+"',"+book.copies+")";
+                    int rows = statement.executeUpdate(sqlQuery);
+                    if (rows>0){
+                        System.out.println("book has been added...");
+                    }
+                } catch (SQLException e) {
+                   
+                }
+                uniqueBooksList.add(book.bookName);
+                booksAndQunatity.put((String) book.bookName,book.copies);
             }
             else {
-                booksAndQunatity.put(x, (booksAndQunatity.get(x))+1);
+                booksAndQunatity.put(book.bookName, (booksAndQunatity.get(book.bookName))+book.copies);
                 try{
-                    String sqlQuery = "UPDATE public.library_db SET book_quantity="+(booksAndQunatity.get(x))+" WHERE book_name='"+x+"';";
+                    String sqlQuery = "UPDATE public.library_db SET book_quantity="+(booksAndQunatity.get(book.bookName))+" WHERE book_name='"+book.bookName+"';";
                     int rows = statement.executeUpdate(sqlQuery);
                     if (rows>0){
                         System.out.println("book has been added...");
                     }
-                } catch (SQLException e) {
+                } 
+				catch (SQLException e) {
                     System.out.println();
                 }
             }
+
     }
 
 
@@ -148,19 +158,19 @@ public class Utils {
 
     public static void viewHistory() throws SQLException {
         Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
-            String strDate= formatter.format(date);
-            String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','Viewed history ','View')";
-            statement.executeUpdate(sqlQuery);
-            sqlQuery = "SELECT * FROM public.library_history";
-			ResultSet queryResult = null;
-			queryResult = statement.executeQuery(sqlQuery);
-			while(queryResult.next()){
-				System.out.print(queryResult.getString(1));
-				System.out.print("\t"+queryResult.getString(2));
-				System.out.print("\t("+queryResult.getString(3)+")");
-				System.out.println();
-			}
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy\thh:mm");
+        String strDate= formatter.format(date);
+        String sqlQuery = "INSERT INTO public.library_history(event_time, event, action) VALUES ('"+strDate+ "','Viewed history ','View')";
+        statement.executeUpdate(sqlQuery);
+        sqlQuery = "SELECT * FROM public.library_history";
+        ResultSet queryResult = null;
+        queryResult = statement.executeQuery(sqlQuery);
+        while(queryResult.next()){
+            System.out.print(queryResult.getString(1));
+            System.out.print("\t"+queryResult.getString(2));
+            System.out.print("\t("+queryResult.getString(3)+")");
+            System.out.println();
+        }
         System.out.println();
     }
 
@@ -214,6 +224,7 @@ public class Utils {
         System.out.println("a copy of "+neededBook+" has been returned by " + name);
 
     }
+	
 
 
     public static void userOption (int option) throws SQLException {
@@ -255,7 +266,7 @@ public class Utils {
                     custome7.start();
                     custome8.start();
                     custome9.start();
-                    custome10.start();
+                    custome10.start();	
                 }
                 else {
                     System.out.println("The book is not available since it was never added");
@@ -264,6 +275,10 @@ public class Utils {
             case 5:
                 viewHistory();
                 break;
+			case 6:
+				loadDB();
+				System.out.println("The database has been reloaded...");
+				break;
             default :
                 System.out.println("Please enter the correct option...");
         }
