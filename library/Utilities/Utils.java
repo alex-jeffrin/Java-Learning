@@ -1,7 +1,9 @@
 package Utilities;
 
 import Utilities.BookDetails;
+import com.google.gson.Gson;
 
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.*;
@@ -11,6 +13,63 @@ import java.util.Date;
 import java.io.IOException;
 import java.net.URL;
 import java.net.HttpURLConnection;
+
+class History {
+    String time;
+    String event;
+    String action;
+
+    History(String time, String event, String action) {
+        this.time = time;
+        this.event = event;
+        this.action = action;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getEvent() {
+        return this.event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public String getAction() {
+        return this.action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+}
+
+
+class HistoryDetails{
+    List<History> list;
+
+    public HistoryDetails() {
+        this.list = new ArrayList<>();
+    }
+
+    public HistoryDetails(java.util.List<History> list) {
+        this.list = list;
+    }
+
+    public java.util.List<History> getList() {
+        return list;
+    }
+
+    public void setList(java.util.List<History> list) {
+        this.list = list;
+    }
+}
 
 
 public class Utils {
@@ -192,6 +251,27 @@ public class Utils {
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("Accept", "application/json");
         System.out.println(con.getInputStream());
+
+        
+        String json_str = getResponse(con.getInputStream());
+        Gson gson = new Gson();
+        HistoryDetails details = gson.fromJson(json_str,HistoryDetails.class);
+
+
+        System.out.println("Time :\t\t\t\tAction :\tEvent :");
+        for (History history:details.getList()){
+            System.out.println(history.getTime()+"\t"+history.getAction()+"\t\t"+history.getEvent());
+        }
+    }
+
+    static String getResponse(InputStream stream) throws IOException {
+        StringBuffer buffer = new StringBuffer();
+        int data = stream.read();
+        while (data != -1){
+            buffer.append((char) data);
+            data = stream.read();
+        }
+        return buffer.toString();
     }
 //    public static void viewHistory() throws SQLException {
 //        Date date = new Date();
