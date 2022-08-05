@@ -2,7 +2,6 @@ package Utilities;
 
 import Utilities.BookDetails;
 import com.google.gson.Gson;
-
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
